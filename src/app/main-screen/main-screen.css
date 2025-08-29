@@ -1,0 +1,19 @@
+.hozSplit {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.pane {
+    flex: 1;
+    overflow: auto;
+}
+
+.leftSplit {
+    width: 12%;
+}
+
+.rightSplit {
+    background-color: purple;
+    width: 88%;
+}

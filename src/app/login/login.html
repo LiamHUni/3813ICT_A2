@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-center align-items-center">
+    <form class="inputForm p-4 border rounded bg-light shadow">
+        <!-- Email input -->
+        <div class="mb-4">
+            <label for="email" class="form-label" >Email Address</label>
+            <input [(ngModel)]="email" type="email" name="email" id="email" class="form-control" />
+        </div>
+    
+        <!-- Password input -->
+        <div class="mb-4">
+            <label for="password" class="form-label" >Password</label>
+            <input [(ngModel)]="password" type="password" name="password" id="password" class="form-control" />
+        </div>
+    
+        <!-- Submit button -->
+        <button (onclick)="submit()" type="button" class="btn btn-primary">Sign in</button>
+    </form>
+</div>
