@@ -2,3 +2,8 @@
     min-width: 500px; 
     margin-top: 25vh;
 }
+
+.error {
+    color: red;
+    font-weight: bold;
+}

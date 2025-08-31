@@ -4,12 +4,12 @@ import { MainScreen } from './main-screen/main-screen';
 
 export const routes: Routes = [
     {
-        path:"test",
+        path:"",
         component:Login,
         title:"Login",
     },
     {
-        path:"",
+        path:"main",
         component:MainScreen,
         title:"Main Page",
     }
