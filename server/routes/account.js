@@ -11,10 +11,10 @@ const router = express.Router();
 const {users} = require('../data/user.js');
 
 router.post('/login', (req, res) =>{
-    const {email, password} = req.body;
+    const {username, password} = req.body;
 
-    //Finds any user with matching email and password
-    const user = users.find(u => u.email === email && u.password === password);
+    //Finds any user with matching username and password
+    const user = users.find(u => u.username === username && u.password === password);
 
     //If a user is found
     if(user){

@@ -13,7 +13,6 @@ interface groups {
 interface results {
   username: string,
   email: string,
-  id: number,
   roles: string[],
   groups: groups[],
   valid: boolean
@@ -32,7 +31,7 @@ export class AccountService {
   }
 
   //Posts inputted email and password for requesting sign in
-  signInRequest(email:string, password:string) {
-    return this.http.post<results>(this.url+"login", {email, password});
+  signInRequest(username:string, password:string) {
+    return this.http.post<results>(this.url+"login", {username, password});
   }
 }

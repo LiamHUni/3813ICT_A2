@@ -11,15 +11,14 @@ import { Router } from '@angular/router';
 })
 export class Login {
 
-  email:string = "";
+  username:string = "";
   password:string = "";
   errorMessage:string="";
 
   constructor(private accountService:AccountService, private router:Router){}
 
   submit(){
-    console.log("signed in");
-    this.accountService.signInRequest(this.email, this.password).subscribe(
+    this.accountService.signInRequest(this.username, this.password).subscribe(
       res=>{
         // console.log(res);
         if(res.valid){
@@ -27,10 +26,9 @@ export class Login {
           //Stores user information in local storage
           localStorage.setItem("userInfo", JSON.stringify(res));
           //Navigates to main screen
-          this.router.navigateByUrl('/main');
+          this.router.navigateByUrl('/main/groupBrowser');
         }else{
-          localStorage.removeItem("userInfo");  //Currently for debugging as there's no proper way to clear user information from local storage
-          this.errorMessage = "Incorrect email or password";
+          this.errorMessage = "Incorrect username or password";
         }      
       }
     );

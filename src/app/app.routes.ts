@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Login } from './login/login';
 import { MainScreen } from './main-screen/main-screen';
+import { GroupBrowser } from './components/group-browser/group-browser';
+import { CreateUser } from './components/create-user/create-user';
 
 export const routes: Routes = [
     {
@@ -12,5 +14,17 @@ export const routes: Routes = [
         path:"main",
         component:MainScreen,
         title:"Main Page",
+        children:[
+            {
+                path:"groupBrowser",
+                component: GroupBrowser,
+                title:"Group Browser"
+            },
+            {
+                path:"createUser",
+                component: CreateUser,
+                title: "User Creator"
+            }
+        ]
     }
 ];

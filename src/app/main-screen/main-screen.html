@@ -9,7 +9,7 @@
             <hr>
             <!-- Remove ul from search and add sections if blue active marker isn't wanted -->
             <ul class="nav nav-pills flex-column">
-                <a href="#" class="nav-link text-white">
+                <a href="/main/groupBrowser" class="nav-link text-white">
                     <i class="bi bi-search"></i>
                     Groups
                 </a>
@@ -43,7 +43,11 @@
 
             <!-- Create Group -->
             <ul class="nav nav-pills flex-column">
-                <a href="#" class="nav-link text-white">
+                <a href="/main/createUser" class="nav-link text-white">
+                    <i class="bi bi-plus"></i>
+                    User
+                </a>
+                <a *ngIf="userInfo.roles.includes('groupAdmin')" href="#" class="nav-link text-white">
                     <i class="bi bi-plus"></i>
                     Group
                 </a>
@@ -51,16 +55,20 @@
             <hr>
 
             <!-- User Section -->
-            <a href="test" class="d-flex align-items-center text-white text-decoration-none">
+            <!-- <a (click)="logout()" class="d-flex align-items-center text-white text-decoration-none">
                 <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2">
                 <strong>Uni</strong>
-            </a>
+            </a> -->
+            <button (click)="logout()" class="btn d-flex align-items-center text-white text-decoration-none">
+                <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>Uni</strong>
+            </button>
         </div>
     </div>
 
     <!-- Page Content -->
     <div class="rightSplit">
-        <!-- Will be changed to childrens routing -->
-        <app-group-browser></app-group-browser>
+        <!-- Displays the child route for main screen -->
+        <router-outlet></router-outlet>
     </div>        
 </div>
