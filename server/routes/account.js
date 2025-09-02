@@ -8,7 +8,7 @@ const express = require('express');
 const router = express.Router();
 
 //Allows use of user info in data folder
-const {users} = require('../data/user.js');
+const {users, updateUserJSON} = require('../data/user.js');
 
 router.post('/login', (req, res) =>{
     const {username, password} = req.body;
@@ -27,6 +27,8 @@ router.post('/login', (req, res) =>{
         //Returns invalid
         res.json({valid: false});
     }
+
+    // updateUserJSON();
 });
 
 
