@@ -14,6 +14,8 @@
 }
 
 .rightSplit {
-    background-color: purple;
+    /* background-color: #212529;  */
+    background-color: rgba(33, 37, 41, 0.95);
+    /* rgba(33,37,41,255) */
     width: 88%;
 }

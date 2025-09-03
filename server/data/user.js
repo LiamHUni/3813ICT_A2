@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 
 class User {
-    constructor(username, email, password, roles, groups){
+    constructor(username, email, password, roles=["user"], groups=[]){
         this.username = username;
         this.email = email;
         this.password = password;
@@ -19,13 +19,14 @@ async function updateUserJSON(data=users, filename='data/user.json'){
     try{
         //Stringifies user array
         const jsonStr = JSON.stringify(data, null, 2);
-        //Waits for user filet o be updated
+        //Waits for user file to be updated
         await fs.writeFile(filename, jsonStr);
         console.log('Users updated');
     }catch(err){
         console.error('User file failed:',err);
     }
 }
+
 
 module.exports = {
     User,

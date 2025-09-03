@@ -2,17 +2,19 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 
-const {users} = require('./data/user.js');
-
 const accountRoutes = require('./routes/account.js');
+const groupRoutes = require('./routes/group.js');
 
 const cors = require('cors');
 app.use(cors());
 
 app.use(express.json());
 
-//Allows use of /acconut/??? route
+//Allows use of /account/??? route
 app.use('/account', accountRoutes);
+
+//Allows use of /group/??? route
+app.use('/group', accountRoutes);
 
 let server = http.listen(3000, function() {
     let host = server.address().address;

@@ -10,12 +10,17 @@ interface groups {
 }
 
 //Format for returned user information
-interface results {
+interface loginResult {
   username: string,
   email: string,
   roles: string[],
   groups: groups[],
   valid: boolean
+}
+
+interface createResult {
+  valid: boolean,
+  mess: string
 }
 
 @Injectable({
@@ -32,6 +37,10 @@ export class AccountService {
 
   //Posts inputted email and password for requesting sign in
   signInRequest(username:string, password:string) {
-    return this.http.post<results>(this.url+"login", {username, password});
+    return this.http.post<loginResult>(this.url+"login", {username, password});
+  }
+
+  createUserRequest(username: string, email: string, password: string){
+    return this.http.post<createResult>(this.url+"create", {username, email, password});
   }
 }

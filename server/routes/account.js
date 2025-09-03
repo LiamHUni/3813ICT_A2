@@ -8,7 +8,7 @@ const express = require('express');
 const router = express.Router();
 
 //Allows use of user info in data folder
-const {users, updateUserJSON} = require('../data/user.js');
+const {User, users, updateUserJSON} = require('../data/user.js');
 
 router.post('/login', (req, res) =>{
     const {username, password} = req.body;
@@ -29,6 +29,38 @@ router.post('/login', (req, res) =>{
     }
 
     // updateUserJSON();
+});
+
+router.post('/create', (req, res)=>{
+    const {username, email, password} = req.body;
+
+    const usernameMatch = users.find(u => u.username === username);
+    const emailMatch = users.find(u => u.email === email);
+
+    //Returns error messages if username and email are already used
+    if(usernameMatch && emailMatch){
+        console.log("Username and Email already used");
+        res.json({valid: false, mess:"Username and Email already used"})
+
+    //Returns error if username is already used
+    }else if(usernameMatch && !emailMatch){
+        console.log("Username used");
+        res.json({valid: false, mess:"Username must be unique"})
+
+    //Returns error if email is already used
+    }else if(!usernameMatch && emailMatch){
+        console.log("Email used");
+        res.json({valid: false, mess:"Email already used"})
+
+    // Creates new user, returns valid
+    }else{
+        let newUser = new User(username, email, password);
+        users.push(newUser);
+        console.log(newUser);
+        res.json({valid: true, mess:"User successfully created"})
+        updateUserJSON();
+    }
+
 });
 
 

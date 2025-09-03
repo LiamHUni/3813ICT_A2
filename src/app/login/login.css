@@ -1,9 +1,15 @@
 .inputForm {
     min-width: 500px; 
     margin-top: 25vh;
+    background-color: rgba(33, 37, 41, 0.95);
 }
 
 .error {
     color: red;
     font-weight: bold;
+}
+
+.background {
+    height: 100vh;
+    background-color: rgba(33, 37, 41, 0.95);
 }

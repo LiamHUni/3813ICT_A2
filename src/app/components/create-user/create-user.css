@@ -1,0 +1,15 @@
+.inputForm {
+    min-width: 500px; 
+    margin-top: 20vh;
+    background-color: rgba(33, 37, 41, 0.95);
+}
+
+.error {
+    color: rgba(255, 0, 0, 0.75);
+    font-weight: bold;
+}
+
+.success {
+    color: rgba(12, 202, 6, 0.75);
+    font-weight: bold;
+}
