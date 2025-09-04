@@ -33,7 +33,7 @@ export const routes: Routes = [
                 title: "Group Creator"
             },
             {
-                path:"group",
+                path:"groupChat",
                 component: GroupScreen,
                 title: "Group Chat"
             }

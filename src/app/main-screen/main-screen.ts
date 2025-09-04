@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { AccountService } from '../../services/account-service';
+import { GroupService } from '../../services/group-service';
 
 @Component({
   selector: 'app-main-screen',
@@ -22,7 +23,7 @@ export class MainScreen {
 
   userInfo:any;
 
-  constructor(private router:Router, private accountService:AccountService){}
+  constructor(private router:Router, private accountService:AccountService, private groupService:GroupService){}
 
   ngOnInit(){
     this.updateUserInfo();
@@ -44,11 +45,15 @@ export class MainScreen {
   logout(){
     //Removes user information from local storage
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("currentGroup");
     //Navigates to login screen
     this.router.navigateByUrl('');
   }
 
   openGroup(id:number){
-    console.log(id);
+    //Sends group id through observer
+    //Converts to string to prevent '0' being set to ''
+    this.groupService.curGroup$.next(String(id));
+    this.router.navigateByUrl('/main/groupChat');
   }
 }

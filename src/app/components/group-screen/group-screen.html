@@ -1,1 +1,53 @@
-<p>group-screen works!</p>
+<div class="hozSplit">
+    <!-- Channel sidebar navigation -->
+    <div class="leftSplit">        
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white vh-100">
+            <span class="fs-4">{{groupInfo.name}}</span>
+            
+            <hr>
+            <!-- Channel list -->
+            <div class="scroll mb-auto">
+            <ul class="nav nav-pills flex-column">
+                <!-- Loops through all channels -->
+                @for(channel of groupInfo.channels; track channel){
+                    <li class="channelPill">
+                        <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
+                            {{channel}}
+                        </a>
+                    </li>
+                }@empty{
+                    <li class="nav-link text-white">No Channels</li>
+                }
+            </ul>
+            </div>
+        </div>
+    </div>
+    <div class="rightSplit">
+        @if(channel){
+            <div class="p-3 text-white d-flex flex-column vh-100">
+                <!-- Heading -->
+                <span class="fs-4">{{channel}}</span>
+                <hr>
+
+                <!-- Chat message area -->
+                <div class="scroll mb-auto">
+                    <ul class="nav nav-pills flex-column">
+
+                    </ul>
+                </div>
+
+                <!-- Message input form -->
+                <form >
+                    <div class="input-group">
+                        <div class="form-group col-md-11">
+                            <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
+                        </div>
+                        <div class="messageSend input-group-btn">
+                            <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+</div>

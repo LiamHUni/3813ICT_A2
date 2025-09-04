@@ -2,8 +2,14 @@
   {
     "name": "Test Group",
     "id": 0,
-    "channels": [],
-    "joinRequest": []
+    "channels": [
+      "Channel 1",
+      "Channel 2",
+      "Channel 3",
+      "Channel 4",
+      "Channel 5",
+      "Channel 6"
+    ]
   },
   {
     "name": "WIL",

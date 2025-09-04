@@ -1,0 +1,68 @@
+.hozSplit {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.leftSplit {
+    width: 18%;
+    background-color: rgba(44,48,52,255);
+}
+
+.rightSplit {
+    background-color: rgba(55,58,62,255);
+    /* rgba(33,37,41,255) */
+    width: 82%;
+}
+
+
+/* Channel items in list */
+.channelPill{
+    width: 100%;
+    margin-top: 5px; 
+    border-radius: 15px;
+    background-color: rgba(55,58,62,255);
+    overflow-wrap: break-word;
+}
+
+/*
+*   Formatting for chat section
+*/
+.centerText {
+    color: white;
+    font-size: 30px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.messageSend {
+    background-color: rgba(106,109,113,255); 
+    margin-left: 10px; 
+    border-radius: 6px;
+}
+
+
+/* All below handles the scroll bar for when group list exceeds given space */
+
+/* Hides excess groups, enables scrolling */
+.scroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

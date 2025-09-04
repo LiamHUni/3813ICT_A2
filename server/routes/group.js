@@ -54,9 +54,9 @@ function addGroupToUser(group, username){
 
 
 router.post('/retrieve', (req, res)=>{
-    const {groupID} = req.body;
+    const {id} = req.body;
 
-    const group = groups.find(g => g.id === groupID);
+    const group = groups.find(g => g.id === id);
     res.json(group);
 });
 
