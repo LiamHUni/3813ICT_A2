@@ -7,6 +7,17 @@ interface createResult {
   mess: string
 }
 
+interface groupResult {
+  name: string,
+  id: number,
+  channels: channel[]
+}
+
+interface channel{
+  name:string,
+  id:number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +29,11 @@ export class GroupService {
   constructor(private http: HttpClient){}
 
   //Posts inputted email and password for requesting sign in
-  createGroupRequest(name:string) {
-    return this.http.post<createResult>(this.url+"create", {name});
+  createGroupRequest(name:string, user:string) {
+    return this.http.post<createResult>(this.url+"create", {name, user});
+  }
+
+  getGroup(id:number){
+    return this.http.post<groupResult>(this.url+"retrieve", {id});
   }
 }

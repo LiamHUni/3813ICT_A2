@@ -4,6 +4,7 @@ import { MainScreen } from './main-screen/main-screen';
 import { GroupBrowser } from './components/group-browser/group-browser';
 import { CreateUser } from './components/create-user/create-user';
 import { CreateGroup } from './components/create-group/create-group';
+import { GroupScreen } from './components/group-screen/group-screen';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,11 @@ export const routes: Routes = [
                 path:"createGroup",
                 component: CreateGroup,
                 title: "Group Creator"
+            },
+            {
+                path:"group",
+                component: GroupScreen,
+                title: "Group Chat"
             }
         ]
     }

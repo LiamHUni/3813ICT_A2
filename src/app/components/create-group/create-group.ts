@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GroupService } from '../../../services/group-service';
+import { AccountService } from '../../../services/account-service';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-group',
@@ -14,7 +17,7 @@ export class CreateGroup {
   errorMessage:string="";
   successMessage:string="";
 
-  constructor(private groupService:GroupService){}
+  constructor(private router:Router, private groupService:GroupService, private accountService:AccountService){}
 
 
   submit(){
@@ -23,11 +26,20 @@ export class CreateGroup {
     this.successMessage = "";
 
     if(this.name){
-      this.groupService.createGroupRequest(this.name).subscribe(
+      //Gets username
+      const data = localStorage.getItem("userInfo");
+      let userInfo:any;
+      if(data){
+        userInfo = JSON.parse(data);
+      }
+
+      //Sends request to create group
+      this.groupService.createGroupRequest(this.name, userInfo.username).subscribe(
         res=>{
           if(res.valid){
             this.successMessage = res.mess;
             this.name = "";
+            this.accountService.updateUserInfo(userInfo.username);
           }else{
             this.errorMessage = res.mess;
           }

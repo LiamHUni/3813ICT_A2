@@ -76,6 +76,29 @@ router.post('/create', (req, res)=>{
     }
 });
 
+router.post('/retrieve', (req, res)=>{
+    const {username} = req.body;
+
+    const user = users.find(u => u.username === username);
+
+    if(user.roles.includes("superAdmin")){
+        let allGroups = [];
+        //Loops through all groups, gets their name and id
+        for(const g of groups){
+            allGroups.push({name:g.name, id:g.id, admin:true});
+        }
+        //Sets user group to be all groups
+        user.groups = allGroups;
+    }
+
+
+    //Seperates password and rest of user info
+    const {password, ...userInfo} = user;
+    //Adds valid attribute to info
+    userInfo.valid = true;
+    res.json(userInfo);
+});
+
 
 
 module.exports = router;

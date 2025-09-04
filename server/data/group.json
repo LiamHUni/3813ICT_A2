@@ -44,5 +44,10 @@
     "name": "Yippie",
     "id": 8,
     "channels": []
+  },
+  {
+    "name": "TestGroupThing",
+    "id": 9,
+    "channels": []
   }
 ]

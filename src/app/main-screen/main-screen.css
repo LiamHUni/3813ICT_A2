@@ -10,13 +10,13 @@
 }
 
 .leftSplit {
-    width: 12%;
+    width: 15%;
 }
 
 .rightSplit {
     background-color: rgba(33, 37, 41, 0.95);
     /* rgba(33,37,41,255) */
-    width: 88%;
+    width: 85%;
 }
 
 

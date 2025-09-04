@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
+import { AccountService } from '../../services/account-service';
 
 @Component({
   selector: 'app-main-screen',
@@ -21,13 +22,22 @@ export class MainScreen {
 
   userInfo:any;
 
-  constructor(private router:Router){}
+  constructor(private router:Router, private accountService:AccountService){}
 
   ngOnInit(){
+    this.updateUserInfo();
+
+    //Subscribes to observable, triggers when local storage 'userInfo' is updated
+    this.accountService.changes$.subscribe(({})=>{
+      this.updateUserInfo();
+    });
+  }
+  
+  updateUserInfo(){    
+    // console.log("Updated from local stroage");
     const data = localStorage.getItem("userInfo");
     if(data){
       this.userInfo = JSON.parse(data);
-      // console.log(this.userInfo);
     }
   }
 

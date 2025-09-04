@@ -15,13 +15,48 @@
         "admin": true
       },
       {
+        "name": "WIL",
+        "id": 1,
+        "admin": true
+      },
+      {
         "name": "Math",
         "id": 2,
-        "admin": false
+        "admin": true
+      },
+      {
+        "name": "Science",
+        "id": 3,
+        "admin": true
       },
       {
         "name": "English",
         "id": 4,
+        "admin": true
+      },
+      {
+        "name": "FBGC",
+        "id": 5,
+        "admin": true
+      },
+      {
+        "name": "Yeah",
+        "id": 6,
+        "admin": true
+      },
+      {
+        "name": "Another Group",
+        "id": 7,
+        "admin": true
+      },
+      {
+        "name": "Yippie",
+        "id": 8,
+        "admin": true
+      },
+      {
+        "name": "TestGroupThing",
+        "id": 9,
         "admin": true
       }
     ]
@@ -82,17 +117,10 @@
     "email": "no",
     "password": "123",
     "roles": [
-      "user"
+      "user",
+      "groupAdmin"
     ],
-    "groups": []
-  },
-  {
-    "username": "noGroupLongNameEtc",
-    "email": "123",
-    "password": "123",
-    "roles": [
-      "user"
-    ],
-    "groups": []
+    "groups": [
+    ]
   }
 ]
