@@ -32,8 +32,7 @@ export class AccountService {
   //Sets base url for /account/??? routes
   url="http://localhost:3000/account/";
 
-  constructor(private http: HttpClient){
-  }
+  constructor(private http: HttpClient){}
 
   //Posts inputted email and password for requesting sign in
   signInRequest(username:string, password:string) {

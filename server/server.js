@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/account', accountRoutes);
 
 //Allows use of /group/??? route
-app.use('/group', accountRoutes);
+app.use('/group', groupRoutes);
 
 let server = http.listen(3000, function() {
     let host = server.address().address;

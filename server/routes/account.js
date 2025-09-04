@@ -37,7 +37,7 @@ router.post('/create', (req, res)=>{
     const usernameMatch = users.find(u => u.username === username);
     const emailMatch = users.find(u => u.email === email);
 
-    //Returns error messages if username and email are already used
+    //Returns error messages if username and email are already used 
     if(usernameMatch && emailMatch){
         console.log("Username and Email already used");
         res.json({valid: false, mess:"Username and Email already used"})

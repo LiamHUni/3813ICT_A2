@@ -39,9 +39,12 @@ export class CreateUser {
           }
         )
       }else{
+        //Displays error if passwords don't match
         this.errorMessage = "Password must match"
       }
+    
     }else{
+      //Displays error if there are empty fields
       this.errorMessage = "All fields must be filled"
     }
   }
