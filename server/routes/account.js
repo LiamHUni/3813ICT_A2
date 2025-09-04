@@ -10,6 +10,8 @@ const router = express.Router();
 //Allows use of user info in data folder
 const {User, users, updateUserJSON} = require('../data/user.js');
 
+const{groups} = require('../data/group.js');
+
 router.post('/login', (req, res) =>{
     const {username, password} = req.body;
 
@@ -18,6 +20,18 @@ router.post('/login', (req, res) =>{
 
     //If a user is found
     if(user){
+        //Checks if user is super admin, if so, gives all groups as their group list
+        if(user.roles.includes("superAdmin")){
+            let allGroups = [];
+            //Loops through all groups, gets their name and id
+            for(const g of groups){
+                allGroups.push({name:g.name, id:g.id, admin:true});
+            }
+            //Sets user group to be all groups
+            user.groups = allGroups;
+        }
+
+
         //Seperates password and rest of user info
         const {password, ...userInfo} = user;
         //Adds valid attribute to info
@@ -60,7 +74,6 @@ router.post('/create', (req, res)=>{
         res.json({valid: true, mess:"User successfully created"})
         updateUserJSON();
     }
-
 });
 
 

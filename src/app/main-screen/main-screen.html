@@ -16,29 +16,20 @@
             </ul>
             <hr>
 
-            <!-- Group list (change to loop) -->
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li>
-                    <a href="#" class="nav-link text-white">
-                    Group 1
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                    Group 2
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                    Group 3
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                    Group 4
-                    </a>
-                </li>
+            <!-- Group list -->
+            <div class="scroll mb-auto">
+            <ul class="nav nav-pills flex-column">
+                @for(group of userInfo.groups; track group.id){
+                    <li class="groupPill">
+                        <a role="button" (click)="openGroup(group.id)" class="nav-link text-white">
+                            {{group.name}}
+                        </a>
+                    </li>
+                }@empty{
+                    <li class="nav-link text-white">No Groups</li>
+                }
             </ul>
+            </div>
             <hr>
 
             <!-- Create Group -->
@@ -61,7 +52,7 @@
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> 
                     <!-- Profile picture placeholder -->
                     <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2"> 
-                    <strong>{{userInfo.username}}</strong>
+                    <strong class="usernameBreak">{{userInfo.username}}</strong>
                 </a>
                 <!-- Togglable dropdown menu-->
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style=""> 

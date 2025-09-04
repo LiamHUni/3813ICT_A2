@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-// import { GroupBrowser } from '../group-browser/group-browser';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 
@@ -19,6 +18,7 @@ export class MainScreen {
     roles: [] as string[],
     groups: [] as []
   }
+
   userInfo:any;
 
   constructor(private router:Router){}
@@ -27,6 +27,7 @@ export class MainScreen {
     const data = localStorage.getItem("userInfo");
     if(data){
       this.userInfo = JSON.parse(data);
+      // console.log(this.userInfo);
     }
   }
 
@@ -35,5 +36,9 @@ export class MainScreen {
     localStorage.removeItem("userInfo");
     //Navigates to login screen
     this.router.navigateByUrl('');
+  }
+
+  openGroup(id:number){
+    console.log(id);
   }
 }

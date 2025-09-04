@@ -4,5 +4,45 @@
     "id": 0,
     "channels": [],
     "joinRequest": []
+  },
+  {
+    "name": "WIL",
+    "id": 1,
+    "channels": []
+  },
+  {
+    "name": "Math",
+    "id": 2,
+    "channels": []
+  },
+  {
+    "name": "Science",
+    "id": 3,
+    "channels": []
+  },
+  {
+    "name": "English",
+    "id": 4,
+    "channels": []
+  },
+  {
+    "name": "FBGC",
+    "id": 5,
+    "channels": []
+  },
+  {
+    "name": "Yeah",
+    "id": 6,
+    "channels": []
+  },
+  {
+    "name": "Another Group",
+    "id": 7,
+    "channels": []
+  },
+  {
+    "name": "Yippie",
+    "id": 8,
+    "channels": []
   }
 ]

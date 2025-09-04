@@ -8,7 +8,23 @@
       "groupAdmin",
       "superAdmin"
     ],
-    "groups": []
+    "groups": [
+      {
+        "name": "Test Group",
+        "id": 0,
+        "admin": true
+      },
+      {
+        "name": "Math",
+        "id": 2,
+        "admin": false
+      },
+      {
+        "name": "English",
+        "id": 4,
+        "admin": true
+      }
+    ]
   },
   {
     "username": "user",
@@ -17,7 +33,23 @@
     "roles": [
       "user"
     ],
-    "groups": []
+    "groups": [
+      {
+        "name": "Test Group",
+        "id": 0,
+        "admin": false
+      },
+      {
+        "name": "Science",
+        "id": 3,
+        "admin": true
+      },
+      {
+        "name": "English",
+        "id": 4,
+        "admin": false
+      }
+    ]
   },
   {
     "username": "admin",
@@ -26,6 +58,40 @@
     "roles": [
       "user",
       "groupAdmin"
+    ],
+    "groups": [
+      {
+        "name": "Test Group",
+        "id": 0,
+        "admin": true
+      },
+      {
+        "name": "Math",
+        "id": 2,
+        "admin": false
+      },
+      {
+        "name": "English",
+        "id": 4,
+        "admin": true
+      }
+    ]
+  },
+  {
+    "username": "noGroup",
+    "email": "no",
+    "password": "123",
+    "roles": [
+      "user"
+    ],
+    "groups": []
+  },
+  {
+    "username": "noGroupLongNameEtc",
+    "email": "123",
+    "password": "123",
+    "roles": [
+      "user"
     ],
     "groups": []
   }
