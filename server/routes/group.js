@@ -71,5 +71,21 @@ router.post('/createChannel', (req, res)=>{
     res.json({valid:true, mess:""});
 });
 
+//Delete channel from group
+router.post('/deleteChannel', (req, res)=>{
+    const {groupID, channelName} = req.body;
+
+    let group = groups.find(g => g.id === groupID);
+    let index = group.channels.indexOf(channelName);
+    if(index !== -1){
+        group.channels.splice(index,1);
+    }
+    updateGroupJSON();
+
+    res.json({valid:true, mess:""});
+});
+
+
+
 
 module.exports = router;

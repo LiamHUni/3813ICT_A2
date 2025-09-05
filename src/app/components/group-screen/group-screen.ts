@@ -82,4 +82,14 @@ export class GroupScreen {
       }
     );
   }
+
+  deleteChannel(channelName: any){
+    this.groupService.deleteChannel(this.groupInfo.id, channelName).subscribe(
+      res=>{
+        if(res.valid){
+          this.retrieveGroupInfo(Number(this.groupInfo.id));
+        }
+      }
+    );
+  }
 }

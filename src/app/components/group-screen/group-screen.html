@@ -13,10 +13,11 @@
                 <ul class="nav nav-pills flex-column">
                     <!-- Loops through all channels -->
                     @for(channel of groupInfo.channels; track channel){
-                        <li class="channelPill">
-                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
+                        <li class="channelPill row">
+                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white col">
                                 {{channel}}
                             </a>
+                            <button (click)="deleteChannel(channel)" class="deleteChannelBut"></button>
                         </li>
                     }@empty{
                         <li class="nav-link text-white">No Channels</li>

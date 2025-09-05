@@ -25,6 +25,14 @@
     overflow-wrap: break-word;
 }
 
+.deleteChannelBut{
+    background-color:red;
+    height: 20px;
+    width: 10px;
+    border-radius: 8px;
+    border-width: 0;
+}
+
 /*
 *   Formatting for chat section
 */

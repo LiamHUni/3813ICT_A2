@@ -43,4 +43,8 @@ export class GroupService {
   createChannel(groupID: number, channelName: string){
     return this.http.post<createResult>(this.url+"createChannel", {groupID, channelName});
   }
+
+  deleteChannel(groupID: number, channelName: string){
+    return this.http.post<createResult>(this.url+"deleteChannel", {groupID, channelName});
+  }
 }
