@@ -19,7 +19,7 @@ interface userResult {
   valid: boolean
 }
 
-interface createResult {
+interface genResults {
   valid: boolean,
   mess: string
 }
@@ -30,11 +30,6 @@ interface createResult {
 
 
 export class AccountService {
-  /*
-  *
-  * Routing functions
-  * 
-  */
  //Sets base url for /account/??? routes
   url="http://localhost:3000/account/";
 
@@ -48,7 +43,7 @@ export class AccountService {
   }
 
   createUserRequest(username: string, email: string, password: string){
-    return this.http.post<createResult>(this.url+"create", {username, email, password});
+    return this.http.post<genResults>(this.url+"create", {username, email, password});
   }
 
   //Creates observable to notify when localstorage is updated
@@ -70,5 +65,7 @@ export class AccountService {
     )  
   }
 
-
+  leaveGroup(groupID: number, username:string){
+    return this.http.post<genResults>(this.url+"leaveGroup",{groupID, username});
+  }
 }

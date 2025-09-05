@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { GroupService } from '../../../services/group-service';
 import { FormsModule } from '@angular/forms';
 import { ChannelModal } from '../channel-modal/channel-modal';
+import { AccountService } from '../../../services/account-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-screen',
@@ -16,6 +18,7 @@ export class GroupScreen {
   groupInfo:object|any = {name:"loading"};
   channel: string = "temp";
 
+  userInfo: any;
   userAdmin: boolean = false;
 
   //Won't be used for part 1
@@ -23,7 +26,7 @@ export class GroupScreen {
 
   modal: any;
 
-  constructor(private groupService:GroupService){}
+  constructor(private groupService:GroupService, private accountService:AccountService, private router:Router){}
 
   ngOnInit(){
     //Subscribes to observer to recieve group id from main-screen.ts
@@ -56,20 +59,21 @@ export class GroupScreen {
   //Finding if user is admin of group
   determineIfAdmin(id:number){
     //Get user info from storage
-    let userInfo:any = localStorage.getItem('userInfo');
-    userInfo = JSON.parse(userInfo);
+    const userInfoTemp = localStorage.getItem('userInfo');
+    this.userInfo = userInfoTemp ? JSON.parse(userInfoTemp): null;
     //Finds group in user group array, checks admin value
-    this.userAdmin = userInfo.groups.find((group: {name:string, id:number, admin:boolean})=>group.id === id)?.admin;
+    this.userAdmin = this.userInfo.groups.find((group: {name:string, id:number, admin:boolean})=>group.id === id)?.admin;
   }
 
+  
+  //No functionality required for assignment 1
+  submit(){
+    
+  }
+  
   openChannel(name:string){
     console.log(name);
     this.channel = name;
-  }
-
-  //No functionality required for assignment 1
-  submit(){
-
   }
 
   createChannel(channelName: any){
@@ -83,7 +87,7 @@ export class GroupScreen {
     );
   }
 
-  deleteChannel(channelName: any){
+  deleteChannel(channelName: string){
     this.groupService.deleteChannel(this.groupInfo.id, channelName).subscribe(
       res=>{
         if(res.valid){
@@ -92,4 +96,16 @@ export class GroupScreen {
       }
     );
   }
+
+  leaveGroup(){
+    this.accountService.leaveGroup(this.groupInfo.id, this.userInfo.username).subscribe(
+      res=>{
+        if(res.valid){
+          this.accountService.updateUserInfo(this.userInfo.username);
+          this.router.navigateByUrl('/main/groupBrowser');
+        }
+      }
+    )
+  }
+
 }

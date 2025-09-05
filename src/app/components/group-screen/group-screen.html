@@ -17,7 +17,9 @@
                             <a role="button" (click)="openChannel(channel)" class="nav-link text-white col">
                                 {{channel}}
                             </a>
-                            <button (click)="deleteChannel(channel)" class="deleteChannelBut"></button>
+                            @if(userAdmin){
+                                <button (click)="deleteChannel(channel)" class="deleteChannelBut"></button>
+                            }
                         </li>
                     }@empty{
                         <li class="nav-link text-white">No Channels</li>
@@ -25,12 +27,25 @@
                 </ul>
             </div>
             <hr>
-            <!-- Hides create channel option if user is not admin of group -->
-            @if(userAdmin){
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#channelModal">
-                    Create Channel
-                </button>
-            }
+            <!-- Group management options -->
+            <div class="d-flex flex-column">
+                @if(!userInfo.roles.includes('superAdmin')){
+                    <button (click)="leaveGroup()" type="button" class="groupOptionButton btn btn-primary">
+                        Leave Group
+                    </button>
+                }
+                @if(userAdmin){
+                    <button type="button" class="groupOptionButton btn btn-primary" data-bs-toggle="modal" data-bs-target="#channelModal">
+                        Create Channel
+                    </button>
+                    <button type="button" class="groupOptionButton btn btn-primary">
+                        Manage Users
+                    </button>
+                    <button type="button" class="groupOptionButton btn btn-primary">
+                        Delete Group
+                    </button>
+                }
+            </div>
         </div>
     </div>
 

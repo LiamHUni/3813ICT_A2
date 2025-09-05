@@ -24,10 +24,7 @@
   {
     "name": "Science",
     "id": 3,
-    "channels": [
-      "Chemistry",
-      "Physics"
-    ]
+    "channels": []
   },
   {
     "name": "English",

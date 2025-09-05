@@ -99,6 +99,26 @@ router.post('/retrieve', (req, res)=>{
     res.json(userInfo);
 });
 
+router.post('/leaveGroup', (req, res)=>{
+    const {username, groupID} = req.body;
+    // console.log(username, groupID);
+
+    // const userLeft  = user.groups.filter(group=>group.id !== groupID);
+    // const userLeft  = {...user, groups:user.groups.filter(group=>group.id !== groupID)};
+    // console.log(userLeft);
+
+
+    const user = users.find(u => u.username === username);
+
+    let index = user.groups.indexOf(user.groups.find(g=>g.id === groupID));
+    if(index !== -1){
+        user.groups.splice(index,1);
+    }
+    updateUserJSON();
+
+    res.json({valid:true, mess:""});
+});
+
 
 
 module.exports = router;
