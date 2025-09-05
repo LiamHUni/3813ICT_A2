@@ -1,1 +1,27 @@
-<p>channel-modal works!</p>
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="channelModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Header -->
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create New Channel(s)</h1>
+        </div>
+        <!-- Body and Footer -->
+        <form>
+            <div class="modal-body">
+                <label for="channelName" class="form-label" >Channel Name</label>
+                <input [(ngModel)]="channelName" type="text" name="channelName" id="channelName" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="createChannel()" type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
