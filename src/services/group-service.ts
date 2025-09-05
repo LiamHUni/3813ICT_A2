@@ -39,4 +39,8 @@ export class GroupService {
   getGroup(id:number){
     return this.http.post<groupResult>(this.url+"retrieve", {id});
   }
+  
+  createChannel(groupID: number, channelName: string){
+    return this.http.post<createResult>(this.url+"createChannel", {groupID, channelName});
+  }
 }

@@ -52,7 +52,7 @@ function addGroupToUser(group, username){
 }
 
 
-
+//Sends all information about group
 router.post('/retrieve', (req, res)=>{
     const {id} = req.body;
 
@@ -60,7 +60,16 @@ router.post('/retrieve', (req, res)=>{
     res.json(group);
 });
 
+//Adds new channel to group
+router.post('/createChannel', (req, res)=>{
+    const {groupID, channelName} = req.body;
 
+    const group = groups.find(g => g.id === groupID);
+    group.channels.push(channelName);
+    updateGroupJSON();
+
+    res.json({valid:true, mess:""});
+});
 
 
 module.exports = router;
