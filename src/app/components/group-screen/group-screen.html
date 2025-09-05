@@ -7,24 +7,34 @@
             <hr>
             <!-- Channel list -->
             <div class="scroll mb-auto">
-            <ul class="nav nav-pills flex-column">
-                <!-- Loops through all channels -->
-                @for(channel of groupInfo.channels; track channel){
-                    <li class="channelPill">
-                        <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
-                            {{channel}}
-                        </a>
-                    </li>
-                }@empty{
-                    <li class="nav-link text-white">No Channels</li>
-                }
-            </ul>
+                <ul class="nav nav-pills flex-column">
+                    <!-- Loops through all channels -->
+                    @for(channel of groupInfo.channels; track channel){
+                        <li class="channelPill">
+                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
+                                {{channel}}
+                            </a>
+                        </li>
+                    }@empty{
+                        <li class="nav-link text-white">No Channels</li>
+                    }
+                </ul>
             </div>
+            <hr>
+            hi
         </div>
     </div>
+
+    <!-- Chat section -->
     <div class="rightSplit">
         @if(channel){
             <div class="p-3 text-white d-flex flex-column vh-100">
+
+                
+
+
+
+
                 <!-- Heading -->
                 <span class="fs-4">{{channel}}</span>
                 <hr>

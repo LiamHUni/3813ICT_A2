@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './group-screen.html',
   styleUrl: './group-screen.css'
 })
+
+
 export class GroupScreen {
   //Gives defualt name to prevent error message in quick loading time
   groupInfo:object|any = {name:"loading"};
@@ -16,6 +18,7 @@ export class GroupScreen {
   chatMessage: string = "";
 
   constructor(private groupService:GroupService){}
+
 
   ngOnInit(){
     //Subscribes to observer to recieve group id from main-screen.ts
