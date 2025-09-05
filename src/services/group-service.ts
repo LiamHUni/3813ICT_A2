@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
 
-interface createResult {
+interface genResults {
   valid: boolean,
   mess: string
 }
@@ -33,18 +33,45 @@ export class GroupService {
 
   //Posts inputted email and password for requesting sign in
   createGroupRequest(name:string, user:string) {
-    return this.http.post<createResult>(this.url+"create", {name, user});
+    return this.http.post<genResults>(this.url+"create", {name, user});
+  }
+
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  getAllGroups(username:string){
+    return this.http.post<any>(this.url+"retrieveAll", {username});
   }
 
   getGroup(id:number){
     return this.http.post<groupResult>(this.url+"retrieve", {id});
   }
   
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  requestAccess(username:string, groupID:number){
+    return this.http.post<groupResult>(this.url+"requestAccess", {username, groupID});
+  }
+  
   createChannel(groupID: number, channelName: string){
-    return this.http.post<createResult>(this.url+"createChannel", {groupID, channelName});
+    return this.http.post<genResults>(this.url+"createChannel", {groupID, channelName});
   }
 
   deleteChannel(groupID: number, channelName: string){
-    return this.http.post<createResult>(this.url+"deleteChannel", {groupID, channelName});
+    return this.http.post<genResults>(this.url+"deleteChannel", {groupID, channelName});
+  }
+
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  deleteGroup(groupID: number){
+    return this.http.post<genResults>(this.url+"deleteGroup", {groupID});
   }
 }

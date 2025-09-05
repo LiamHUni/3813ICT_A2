@@ -7,18 +7,18 @@
             <hr>
 
             <!-- Group Search -->
-            <!-- Remove ul from search and add sections if blue active marker isn't wanted -->
-            <ul class="nav nav-pills flex-column">
+            <div class="nav flex-column">
                 <a href="/main/groupBrowser" class="nav-link text-white">
                     <i class="bi bi-search"></i>
                     Groups
                 </a>
-            </ul>
+            </div>
             <hr>
 
             <!-- Group list -->
             <div class="scroll mb-auto">
                 <ul class="nav nav-pills flex-column">
+                    <!-- Loops through groups in userInfo groups array -->
                     @for(group of userInfo.groups; track group.id){
                         <li class="groupPill">
                             <a role="button" (click)="openGroup(group.id)" class="nav-link text-white">
@@ -32,19 +32,6 @@
             </div>
             <hr>
 
-            <!-- Create Group -->
-            <ul class="nav nav-pills flex-column">
-                <a href="/main/createUser" class="nav-link text-white">
-                    <i class="bi bi-plus"></i>
-                    User
-                </a>
-                <a *ngIf="userInfo.roles.includes('groupAdmin')" href="/main/createGroup" class="nav-link text-white">
-                    <i class="bi bi-plus"></i>
-                    Group
-                </a>
-            </ul>
-            <hr>
-
             <!-- User Section -->
             <!-- Profile button options (Utilises bootstrap dropdown in bootstrap js) -->
             <div class="dropdown"> 
@@ -52,18 +39,19 @@
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> 
                     <!-- Profile picture placeholder -->
                     <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2"> 
-                    <strong class="usernameBreak">{{userInfo.username}}</strong>
+                    <strong>{{userInfo.username}}</strong>
                 </a>
                 <!-- Togglable dropdown menu-->
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style=""> 
                     <li>
-                        <a class="dropdown-item" href="#">New project...</a>
+                        <a class="dropdown-item" href="/main/createUser">New User</a>
+                    </li>
+                    <!-- Only displays if user has groupAdmin role -->
+                    <li *ngIf="userInfo.roles.includes('groupAdmin')">
+                        <a class="dropdown-item" href="/main/createGroup">New Group</a>
                     </li> 
                     <li>
-                        <a class="dropdown-item" href="#">Settings</a>
-                    </li> 
-                    <li>
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a role="button" class="dropdown-item" href="#">Profile</a>
                     </li> 
                     <li>
                         <hr class="dropdown-divider">

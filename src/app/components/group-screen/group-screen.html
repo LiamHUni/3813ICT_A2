@@ -13,13 +13,10 @@
                 <ul class="nav nav-pills flex-column">
                     <!-- Loops through all channels -->
                     @for(channel of groupInfo.channels; track channel){
-                        <li class="channelPill row">
-                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white col">
+                        <li class="channelPill">
+                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
                                 {{channel}}
                             </a>
-                            @if(userAdmin){
-                                <button (click)="deleteChannel(channel)" class="deleteChannelBut"></button>
-                            }
                         </li>
                     }@empty{
                         <li class="nav-link text-white">No Channels</li>
@@ -41,7 +38,7 @@
                     <button type="button" class="groupOptionButton btn btn-primary">
                         Manage Users
                     </button>
-                    <button type="button" class="groupOptionButton btn btn-primary">
+                    <button type="button" class="groupOptionButton warning btn btn-primary">
                         Delete Group
                     </button>
                 }
@@ -54,7 +51,11 @@
         @if(channel){
             <div class="p-3 text-white d-flex flex-column vh-100">
                 <!-- Heading -->
-                <span class="fs-4">{{channel}}</span>
+                <div style="display: flex; justify-content: space-between;">
+                    <span class="fs-4">{{channel}}</span>
+                    <!-- Delete Channel button -->
+                    <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>
+                </div>
                 <hr>
                 <!-- Chat message area -->
                 <div class="scroll mb-auto">

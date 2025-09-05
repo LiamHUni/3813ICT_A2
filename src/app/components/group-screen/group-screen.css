@@ -33,6 +33,15 @@
     border-width: 0;
 }
 
+.warning{
+    background-color: red;
+    border-color: red;
+}
+
+.chanDel{
+    width: 100px;
+}
+
 .groupOptionButton{
     margin-top: 5px;
 }

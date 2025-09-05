@@ -52,12 +52,41 @@ function addGroupToUser(group, username){
 }
 
 
+//Sends all groups for group browser page
+router.post('/retrieveAll', (req, res)=>{
+    const {username} = req.body;
+
+    //Find all groups user is part of
+
+
+    /*
+    * Loop through all groups
+    * Check if they're part of the group already
+    * Check if they've requested access
+    * Check if they're banned
+    * Get only group name, id, and status
+    * Status = notJoined, joined, requested, banned
+    * [{name, id, status}, ]
+    */
+});
+
+
 //Sends all information about group
 router.post('/retrieve', (req, res)=>{
     const {id} = req.body;
 
     const group = groups.find(g => g.id === id);
     res.json(group);
+});
+
+router.post('/requestAccess', (req, res)=>{
+    const {username, groupID} = req.body;
+
+    //Find group
+
+    //Add user to request array
+
+    //updateGroupJSON();
 });
 
 //Adds new channel to group
@@ -81,6 +110,23 @@ router.post('/deleteChannel', (req, res)=>{
         group.channels.splice(index,1);
     }
     updateGroupJSON();
+
+    res.json({valid:true, mess:""});
+});
+
+//Delete group
+router.post('/deleteGroup', (req, res)=>{
+    const {groupID} = req.body;
+
+    //Remove the group from all users group lists
+
+
+    // updateUserJSON();
+
+
+    //Remove group from group array
+
+    // updateGroupJSON();
 
     res.json({valid:true, mess:""});
 });

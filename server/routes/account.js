@@ -121,4 +121,43 @@ router.post('/leaveGroup', (req, res)=>{
 
 
 
+router.post('/allOfGroup', (req, res)=>{
+    const {username, groupID} = req.body;
+
+    //Loop through all users, check for id in group array
+    //Respond with username, roles, and admin status for the server
+
+
+});
+
+router.post('/retrieveAll', (req, res)=>{
+    const {username} = req.body;
+
+    //Loop through all users, keep only name and roles
+
+
+});
+
+router.post('/setRoles', (req, res)=>{
+    const {username, roles} = req.body;
+
+    //Find user
+
+    //Set user.roles = roles
+
+    //updateUserJSON();
+});
+
+router.post('/delete', (req, res)=>{
+    const {username} = req.body;
+
+    //Find user
+
+    //Delete from user array
+
+    //updateUserJSON();
+});
+
+
+
 module.exports = router;

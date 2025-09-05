@@ -87,8 +87,8 @@ export class GroupScreen {
     );
   }
 
-  deleteChannel(channelName: string){
-    this.groupService.deleteChannel(this.groupInfo.id, channelName).subscribe(
+  deleteChannel(){
+    this.groupService.deleteChannel(this.groupInfo.id, this.channel).subscribe(
       res=>{
         if(res.valid){
           this.retrieveGroupInfo(Number(this.groupInfo.id));
@@ -99,6 +99,17 @@ export class GroupScreen {
 
   leaveGroup(){
     this.accountService.leaveGroup(this.groupInfo.id, this.userInfo.username).subscribe(
+      res=>{
+        if(res.valid){
+          this.accountService.updateUserInfo(this.userInfo.username);
+          this.router.navigateByUrl('/main/groupBrowser');
+        }
+      }
+    )
+  }
+  
+  deleteGroup(){
+    this.groupService.deleteGroup(this.groupInfo.id).subscribe(
       res=>{
         if(res.valid){
           this.accountService.updateUserInfo(this.userInfo.username);

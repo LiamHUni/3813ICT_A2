@@ -68,4 +68,41 @@ export class AccountService {
   leaveGroup(groupID: number, username:string){
     return this.http.post<genResults>(this.url+"leaveGroup",{groupID, username});
   }
+
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  setRoles(username: string, roles:[]){
+    return this.http.post<genResults>(this.url+"setRoles", {username, roles});
+  }
+
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  deleteUser(username:string){
+    return this.http.post<genResults>(this.url+"delete", {username});
+  }
+
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  allOfGroup(username:string, groupID:number){
+    return this.http.post<[]>(this.url+"allOfGroup", {username, groupID});
+  }
+  
+  //STILL NOT USED
+  //
+  //
+  //
+  //
+  retrieveAll(username:string, groupID:number){
+    return this.http.post<[]>(this.url+"retrieveAll", {username});
+  }
+  
 }
