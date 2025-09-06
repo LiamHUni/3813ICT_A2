@@ -42,7 +42,7 @@ export class UserManager {
     this.accountService.retrieveAll(this.username).subscribe(
       res=>{
         this.users = res;
-        console.log(this.users);
+        // console.log(this.users);
       }
     );
   }
@@ -100,9 +100,13 @@ export class UserManager {
 
   deleteUser(username:string){
     this.accountService.deleteUser(username).subscribe(
-            res=>{
+      res=>{
         if(res.valid){
-          this.retrieveGroupUsers();
+          if(this.groupID){
+            this.retrieveGroupUsers();
+          }else{
+            this.retrieveAllUsers();
+          }
         }
       }
     );
