@@ -1,0 +1,12 @@
+table, th, td {
+    border: 1px solid white;
+    padding: 5px;
+}
+
+.tableText {
+    font-weight: normal;
+}
+
+.btn {
+    margin-right: 5px;
+}

@@ -83,7 +83,7 @@ router.post('/retrieveAll', (req, res)=>{
 });
 
 
-//Sends all information about group
+//Sends all information about single group
 router.post('/retrieve', (req, res)=>{
     const {id} = req.body;
 
@@ -100,6 +100,14 @@ router.post('/requestAccess', (req, res)=>{
     updateGroupJSON();
 
     res.json({valid:true, mess:""});
+});
+
+router.post('/getRequests', (req, res)=>{
+    const {groupID} = req.body;
+
+    const requests = groups.find(g => g.id === groupID)?.joinRequests;
+
+    res.json(requests);
 });
 
 //Adds new channel to group

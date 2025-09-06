@@ -1,17 +1,5 @@
 [
   {
-    "name": "Test Group",
-    "id": 0,
-    "channels": [
-      "Channel 1",
-      "Channel 2",
-      "Channel 3",
-      "Channel 4",
-      "Channel 5"
-    ],
-    "joinRequests": []
-  },
-  {
     "name": "WIL",
     "id": 1,
     "channels": [
@@ -19,31 +7,41 @@
       "Link",
       "Updates"
     ],
-    "joinRequests": [
-      "user"
-    ]
+    "joinRequests": []
   },
   {
     "name": "Math",
     "id": 2,
-    "channels": [],
-    "joinRequests": [
-      "user"
-    ]
+    "channels": [
+      "Area",
+      "Proof",
+      "Circles",
+      "Answers",
+      "Exam Prep"
+    ],
+    "joinRequests": []
   },
   {
     "name": "Science",
     "id": 3,
-    "channels": [],
+    "channels": [
+      "Chemistry",
+      "Physics",
+      "Bio",
+      "Exams"
+    ],
     "joinRequests": []
   },
   {
     "name": "English",
     "id": 4,
-    "channels": [],
-    "joinRequests": [
-      "user"
-    ]
+    "channels": [
+      "Reading",
+      "Writing",
+      "Exam Prep",
+      "Notes"
+    ],
+    "joinRequests": []
   },
   {
     "name": "FBGC",
@@ -52,9 +50,7 @@
       "DND",
       "Gaming"
     ],
-    "joinRequests": [
-      "user"
-    ]
+    "joinRequests": []
   },
   {
     "name": "Yeah",
@@ -65,13 +61,23 @@
   {
     "name": "Another Group",
     "id": 7,
-    "channels": [],
+    "channels": [
+      "Another Channe",
+      "Yet Another Channel",
+      "Even More",
+      "Again again"
+    ],
     "joinRequests": []
   },
   {
     "name": "Testing",
     "id": 8,
-    "channels": [],
+    "channels": [
+      "Testing 1",
+      "Testing 2",
+      "Testing 3",
+      "Testing 4"
+    ],
     "joinRequests": []
   }
 ]

@@ -10,7 +10,7 @@ const router = express.Router();
 //Allows use of user info in data folder
 const {User, users, updateUserJSON} = require('../data/user.js');
 
-const{groups} = require('../data/group.js');
+const{groups, updateGroupJSON} = require('../data/group.js');
 
 router.post('/login', (req, res) =>{
     const {username, password} = req.body;
@@ -124,18 +124,23 @@ router.post('/leaveGroup', (req, res)=>{
 router.post('/allOfGroup', (req, res)=>{
     const {username, groupID} = req.body;
 
-    //Loop through all users, check for id in group array
-    //Respond with username, roles, and admin status for the server
+    const usersOfGroup = users
+    .filter(u=>u.username !== username)
+    .filter(u=>u.groups.some(g=>g.id === groupID))
+    .map(u=>({username: u.username, roles:u.roles}));
+    console.log(usersOfGroup);
 
 
+    res.json(usersOfGroup);
 });
 
 router.post('/retrieveAll', (req, res)=>{
     const {username} = req.body;
 
-    //Loop through all users, keep only name and roles
+    //Gets username and roles of all users, skipping current user
+    const userCopy = users.map(u=>({username: u.username, roles:u.roles})).filter(u=>u.username !== username);
 
-
+    res.json(userCopy);
 });
 
 router.post('/setRoles', (req, res)=>{
@@ -156,6 +161,29 @@ router.post('/delete', (req, res)=>{
     //Delete from user array
 
     //updateUserJSON();
+});
+
+router.post('/joinGroup', (req, res)=>{
+    const {username, groupID, allow} = req.body;
+
+    //Removes user from group join requests array
+    let group = groups.find(g => g.id === groupID);
+    let index = group.joinRequests.indexOf(username);
+    console.log(index);
+    if(index !== -1){
+        group.joinRequests.splice(index,1);
+    }
+    console.log(groups);
+    updateGroupJSON();
+
+    //Add group to user group array
+    if(allow){
+        const user = users.find(u=>u.username === username);
+        user.groups.push({name:group.name, id: groupID, admin:false});
+    }
+    updateUserJSON();
+
+    res.json({valid:true, mess:""});
 });
 
 

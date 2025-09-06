@@ -69,6 +69,10 @@ export class AccountService {
     return this.http.post<genResults>(this.url+"leaveGroup",{groupID, username});
   }
 
+  joinGroup(username:string, groupID: number, allow:boolean){
+    return this.http.post<genResults>(this.url+"joinGroup", {username, groupID, allow});
+  }
+
   //STILL NOT USED
   //
   //
@@ -87,21 +91,11 @@ export class AccountService {
     return this.http.post<genResults>(this.url+"delete", {username});
   }
 
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   allOfGroup(username:string, groupID:number){
     return this.http.post<[]>(this.url+"allOfGroup", {username, groupID});
   }
   
-  //STILL NOT USED
-  //
-  //
-  //
-  //
-  retrieveAll(username:string, groupID:number){
+  retrieveAll(username:string){
     return this.http.post<[]>(this.url+"retrieveAll", {username});
   }
   

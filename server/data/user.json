@@ -10,11 +10,6 @@
     ],
     "groups": [
       {
-        "name": "Test Group",
-        "id": 0,
-        "admin": true
-      },
-      {
         "name": "WIL",
         "id": 1,
         "admin": true
@@ -53,6 +48,16 @@
         "name": "Testing",
         "id": 8,
         "admin": true
+      },
+      {
+        "name": "WIL",
+        "id": 1,
+        "admin": false
+      },
+      {
+        "name": "WIL",
+        "id": 1,
+        "admin": false
       }
     ]
   },
@@ -68,6 +73,26 @@
         "name": "Science",
         "id": 3,
         "admin": true
+      },
+      {
+        "name": "WIL",
+        "id": 1,
+        "admin": false
+      },
+      {
+        "name": "English",
+        "id": 4,
+        "admin": false
+      },
+      {
+        "name": "FBGC",
+        "id": 5,
+        "admin": false
+      },
+      {
+        "name": "Math",
+        "id": 2,
+        "admin": false
       }
     ]
   },
@@ -101,5 +126,20 @@
       "groupAdmin"
     ],
     "groups": []
+  },
+  {
+    "username": "test",
+    "email": "test@test.com",
+    "password": "123",
+    "roles": [
+      "user"
+    ],
+    "groups": [
+      {
+        "name": "WIL",
+        "id": 1,
+        "admin": false
+      }
+    ]
   }
 ]

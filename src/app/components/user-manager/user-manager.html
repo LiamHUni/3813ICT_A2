@@ -1,0 +1,69 @@
+<div class="p-3 text-white d-flex flex-column vh-100">
+    <!-- Header -->
+    <span class="fs-4">User Management</span>
+    <hr>
+    
+    <!-- Only displays group join requests if being used for group user management -->
+    @if(groupID){
+        <span class="fs-5">Join Requests</span>
+            <table>
+            @for(user of joinRequests; track user){
+                <tr>
+                    <!-- Username -->
+                    <th class="tableText">
+                        {{user}}
+                    </th>
+                    <th>
+                    <!-- Request Option -->
+                    <div>
+                        <button (click)="answerRequest(user, true)" class="btn btn-success">Accept</button>
+                        <button (click)="answerRequest(user, false)" class="btn btn-danger">Decline</button>
+                    </div>
+                    </th>
+                </tr>
+            }
+    </table>
+    <hr>
+    }
+    <span class="fs-5">Manage Users</span>
+
+    <!-- User Table -->
+    <table>
+        <!-- Table Headers -->
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Functions</th>
+        </tr>
+        <!-- Loops through each user -->
+        @for(user of users; track user.username){
+            <tr>
+                <!-- Username -->
+                <th class="tableText">
+                    {{user.username}}
+                </th>
+                <!-- Loops through roles -->
+                <th>
+                    @for(role of user.roles; track role){
+                        <div class="tableText">
+                            - {{role}}
+                        </div>
+                    }
+                </th>
+                <th>
+                    <div>
+                        <!-- Edit Roles -->
+                        <button (click)="editRoles()" class="btn btn-primary">Roles</button>
+                        <!-- Displays only if managing group -->
+                        @if(groupID){
+                            <button (click)="kickFromGroup()" class="btn btn-warning">Kick</button>
+                        }
+                        <!-- Delete User -->
+                        <button (click)="deleteUser()" class="btn btn-danger">Delete</button>
+                    </div>
+                </th>
+            </tr>
+        }
+    </table>
+
+</div>

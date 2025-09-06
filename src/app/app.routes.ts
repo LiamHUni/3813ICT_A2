@@ -5,6 +5,7 @@ import { GroupBrowser } from './components/group-browser/group-browser';
 import { CreateUser } from './components/create-user/create-user';
 import { CreateGroup } from './components/create-group/create-group';
 import { GroupScreen } from './components/group-screen/group-screen';
+import { UserManager } from './components/user-manager/user-manager';
 
 export const routes: Routes = [
     {
@@ -35,7 +36,12 @@ export const routes: Routes = [
             {
                 path:"groupChat",
                 component: GroupScreen,
-                title: "Group Chat"
+                title: "Group Chat",
+            },
+            {
+                path:"userManagment",
+                component: UserManager,
+                title: "UserManager"
             }
         ]
     }

@@ -3,11 +3,12 @@ import { GroupService } from '../../../services/group-service';
 import { FormsModule } from '@angular/forms';
 import { ChannelModal } from '../channel-modal/channel-modal';
 import { AccountService } from '../../../services/account-service';
+import { UserManager } from '../user-manager/user-manager';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-screen',
-  imports: [FormsModule, ChannelModal],
+  imports: [FormsModule, ChannelModal, UserManager],
   templateUrl: './group-screen.html',
   styleUrl: './group-screen.css'
 })
@@ -20,6 +21,8 @@ export class GroupScreen {
 
   userInfo: any;
   userAdmin: boolean = false;
+
+  viewingChat: boolean = true;
 
   //Won't be used for part 1
   chatMessage: string = "";
@@ -41,6 +44,7 @@ export class GroupScreen {
         this.retrieveGroupInfo(Number(id));
         this.determineIfAdmin(Number(id));
       }
+      this.viewingChat = true;
     });
   }
 
@@ -73,7 +77,8 @@ export class GroupScreen {
   }
   
   openChannel(name:string){
-    console.log(name);
+    // console.log(name);
+    this.viewingChat = true;
     this.channel = name;
   }
 
@@ -120,4 +125,8 @@ export class GroupScreen {
     )
   }
 
+
+  userManagment(){
+    this.viewingChat = false;
+  }
 }

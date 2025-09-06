@@ -36,11 +36,6 @@ export class GroupService {
     return this.http.post<genResults>(this.url+"create", {name, user});
   }
 
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   getAllGroups(username:any){
     return this.http.post<any>(this.url+"retrieveAll", {username});
   }
@@ -49,13 +44,12 @@ export class GroupService {
     return this.http.post<groupResult>(this.url+"retrieve", {id});
   }
   
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   requestAccess(username:string, groupID:number){
     return this.http.post<genResults>(this.url+"requestAccess", {username, groupID});
+  }
+
+  getRequests(groupID:number){
+    return this.http.post<[]>(this.url+"getRequests", {groupID});
   }
   
   createChannel(groupID: number, channelName: string){
@@ -66,11 +60,6 @@ export class GroupService {
     return this.http.post<genResults>(this.url+"deleteChannel", {groupID, channelName});
   }
 
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   deleteGroup(groupID: number){
     return this.http.post<genResults>(this.url+"deleteGroup", {groupID});
   }

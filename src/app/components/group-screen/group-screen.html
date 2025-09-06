@@ -37,7 +37,7 @@
                     <button type="button" class="groupOptionButton btn btn-primary" data-bs-toggle="modal" data-bs-target="#channelModal">
                         Create Channel
                     </button>
-                    <button type="button" class="groupOptionButton btn btn-primary">
+                    <button (click)="userManagment()" type="button" class="groupOptionButton btn btn-primary">
                         Manage Users
                     </button>
                     <button (click)="deleteGroup()" type="button" class="groupOptionButton warning btn btn-primary">
@@ -50,6 +50,8 @@
 
     <!-- Chat section -->
     <div class="rightSplit">
+        <!-- Changes content between chat and user manager screen -->
+        @if(viewingChat){
         @if(channel){
             <div class="p-3 text-white d-flex flex-column vh-100">
                 <!-- Heading -->
@@ -78,6 +80,10 @@
                     </div>
                 </form>
             </div>
+        }
+        }@else{
+            <app-user-manager [groupID]="groupInfo.id" [username]="userInfo.username"></app-user-manager>
+            <!-- <app-user-manager [username]="userInfo.username"></app-user-manager> -->
         }
     </div>
 </div>
