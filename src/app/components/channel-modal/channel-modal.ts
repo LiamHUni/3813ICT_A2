@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './channel-modal.css'
 })
 export class ChannelModal {
-  // @Output() modalEmit: EventEmitter<string> = new EventEmitter();
   @Output() modalChannelEmit = new EventEmitter<string>();
 
   channelName: string = "";

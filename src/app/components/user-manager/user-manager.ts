@@ -1,19 +1,30 @@
 import { Component, Input } from '@angular/core';
 import { AccountService } from '../../../services/account-service';
 import { GroupService } from '../../../services/group-service';
+import { FormsModule } from '@angular/forms';
+
+interface User{
+  username:string,
+  roles: [],
+  admin: boolean
+}
 
 @Component({
   selector: 'app-user-manager',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './user-manager.html',
   styleUrl: './user-manager.css'
 })
+
 export class UserManager {
   @Input() groupID!: number;
-  @Input() username!: string;
+  @Input() username!: any;
 
   joinRequests: any;
-  users: any;
+  users: User[] = [];
+  
+  userToEdit: any;
+  roles: any;
 
   constructor(private accountService:AccountService, private groupService:GroupService){}
 
@@ -68,8 +79,13 @@ export class UserManager {
   }
 
   //Button functions
-  editRoles(){
+  editRoles(username:string){
+    this.userToEdit = this.users.find(u=>u.username === username);
+    this.roles = this.userToEdit.roles;
+  }
 
+  confirmRoleEdit(){
+    this.userToEdit = "";
   }
 
   kickFromGroup(username:string){
