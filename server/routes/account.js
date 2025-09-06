@@ -124,12 +124,11 @@ router.post('/leaveGroup', (req, res)=>{
 router.post('/allOfGroup', (req, res)=>{
     const {username, groupID} = req.body;
 
-    const usersOfGroup = users
+    let usersOfGroup = users
     .filter(u=>u.username !== username)
     .filter(u=>u.groups.some(g=>g.id === groupID))
-    .map(u=>({username: u.username, roles:u.roles}));
-    // console.log(usersOfGroup);
-
+    .map(u=>({username: u.username, roles:u.roles, admin:u.groups.find(g=>g.id === groupID)?.admin}));
+    console.log(usersOfGroup);
 
     res.json(usersOfGroup);
 });

@@ -51,8 +51,11 @@
                         <a class="dropdown-item" href="/main/createGroup">New Group</a>
                     </li> 
                     <li>
-                        <a role="button" class="dropdown-item" href="#">Profile</a>
-                    </li> 
+                        <a *ngIf="userInfo.roles.includes('superAdmin')" role="button" (click)="toggleUserManager()" class="dropdown-item">User Manager</a>
+                    </li>
+                    <li>
+                        <a role="button" (click)="deleteSelf()" class="dropdown-item">Delete Account</a>
+                    </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -67,7 +70,11 @@
 
     <!-- Page Content -->
     <div class="rightSplit">
-        <!-- Displays the child route for main screen -->
-        <router-outlet></router-outlet>
+        @if(userManager){
+            <app-user-manager [username]="userInfo.username"></app-user-manager>
+        }@else{
+            <!-- Displays the child route for main screen -->
+            <router-outlet></router-outlet>
+        }
     </div>        
 </div>

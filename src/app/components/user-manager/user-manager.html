@@ -44,6 +44,9 @@
                 </th>
                 <!-- Loops through roles -->
                 <th>
+                    @if(user.admin){
+                        Admin of this group
+                    }
                     @for(role of user.roles; track role){
                         <div class="tableText">
                             - {{role}}
