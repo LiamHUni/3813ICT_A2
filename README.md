@@ -22,6 +22,9 @@ ng generate component component-name
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
 
+# /account/??? routes
+
+# /group/??? routes
 
 ## File Layout
 ```
