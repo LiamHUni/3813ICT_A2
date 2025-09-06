@@ -50,13 +50,8 @@
         "admin": true
       },
       {
-        "name": "Yippie",
+        "name": "Testing",
         "id": 8,
-        "admin": true
-      },
-      {
-        "name": "TestGroupThing",
-        "id": 9,
         "admin": true
       }
     ]
@@ -70,19 +65,9 @@
     ],
     "groups": [
       {
-        "name": "Test Group",
-        "id": 0,
-        "admin": false
-      },
-      {
         "name": "Science",
         "id": 3,
         "admin": true
-      },
-      {
-        "name": "English",
-        "id": 4,
-        "admin": false
       }
     ]
   },
@@ -95,11 +80,6 @@
       "groupAdmin"
     ],
     "groups": [
-      {
-        "name": "Test Group",
-        "id": 0,
-        "admin": true
-      },
       {
         "name": "Math",
         "id": 2,

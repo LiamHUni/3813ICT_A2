@@ -56,18 +56,30 @@ function addGroupToUser(group, username){
 router.post('/retrieveAll', (req, res)=>{
     const {username} = req.body;
 
-    //Find all groups user is part of
+    //Find all groups id's user is part of
+    const userGroups = users.find(u=>u.username === username)?.groups.map(g=>{return g.id});
 
+    //Creates deep copy of groups list, ensures original list is not affected
+    const groupCopy = groups.map(g=>({...g}));
 
-    /*
-    * Loop through all groups
-    * Check if they're part of the group already
-    * Check if they've requested access
-    * Check if they're banned
-    * Get only group name, id, and status
-    * Status = notJoined, joined, requested, banned
-    * [{name, id, status}, ]
-    */
+    //Removing and adding required attributes
+    groupCopy.forEach(g=>{
+        //Remove channel attributes
+        delete g.channels;
+
+        //Determines users status to group
+        //Status can be requested, joined, or none
+        if(g.joinRequests.includes(username)){
+            g.status = "Pending"
+        }else if(userGroups.includes(g.id)){
+            g.status = "Joined"
+        }else {
+            g.status = "none"
+        }
+        delete g.joinRequests;
+    });
+
+    res.json(groupCopy);
 });
 
 
@@ -83,10 +95,11 @@ router.post('/requestAccess', (req, res)=>{
     const {username, groupID} = req.body;
 
     //Find group
+    const group = groups.find(g => g.id === groupID);
+    group.joinRequests.push(username);
+    updateGroupJSON();
 
-    //Add user to request array
-
-    //updateGroupJSON();
+    res.json({valid:true, mess:""});
 });
 
 //Adds new channel to group
@@ -119,17 +132,31 @@ router.post('/deleteGroup', (req, res)=>{
     const {groupID} = req.body;
 
     //Remove the group from all users group lists
-
-
-    // updateUserJSON();
-
+    const user = users.map(u=>removeGroup(u, groupID));
+    updateUserJSON();
 
     //Remove group from group array
-
-    // updateGroupJSON();
+    //Find group index in group array
+    const index = groups.indexOf(groups.find(g=>g.id===groupID));
+    //Remove if it exists
+    if(index !== -1){
+        groups.splice(index, 1);
+    }
+    updateGroupJSON();
 
     res.json({valid:true, mess:""});
 });
+
+function removeGroup(user, groupID){
+    //Find the index of the group inside user group array
+    const index = user.groups.indexOf(user.groups.find(g=>g.id===groupID));
+    //Remove if it exists
+    if(index !== -1){
+        user.groups.splice(index, 1);
+    }
+    // console.log(user);
+    return user;
+}
 
 
 

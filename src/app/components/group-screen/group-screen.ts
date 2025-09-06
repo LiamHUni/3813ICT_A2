@@ -36,6 +36,7 @@ export class GroupScreen {
         this.retrieveGroupInfo(Number(data));
         this.determineIfAdmin(Number(data));
       }else{
+        //Allows group to load if page is reloaded
         const id = localStorage.getItem('currentGroup');
         this.retrieveGroupInfo(Number(id));
         this.determineIfAdmin(Number(id));
@@ -77,7 +78,7 @@ export class GroupScreen {
   }
 
   createChannel(channelName: any){
-    console.log(channelName);
+    // console.log(channelName);
     this.groupService.createChannel(this.groupInfo.id, channelName).subscribe(
       res=>{
         if(res.valid){

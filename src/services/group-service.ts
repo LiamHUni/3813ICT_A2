@@ -41,7 +41,7 @@ export class GroupService {
   //
   //
   //
-  getAllGroups(username:string){
+  getAllGroups(username:any){
     return this.http.post<any>(this.url+"retrieveAll", {username});
   }
 
@@ -55,7 +55,7 @@ export class GroupService {
   //
   //
   requestAccess(username:string, groupID:number){
-    return this.http.post<groupResult>(this.url+"requestAccess", {username, groupID});
+    return this.http.post<genResults>(this.url+"requestAccess", {username, groupID});
   }
   
   createChannel(groupID: number, channelName: string){

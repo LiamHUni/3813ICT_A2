@@ -1,0 +1,25 @@
+.groupRow {
+    display: flex;
+}
+
+/* All below handles the scroll bar for when group list exceeds given space */
+
+/* Hides excess groups, enables scrolling */
+.scroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

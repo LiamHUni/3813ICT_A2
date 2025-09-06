@@ -26,11 +26,13 @@
             <hr>
             <!-- Group management options -->
             <div class="d-flex flex-column">
+                <!-- Prevents super admins from leaving a group -->
                 @if(!userInfo.roles.includes('superAdmin')){
                     <button (click)="leaveGroup()" type="button" class="groupOptionButton btn btn-primary">
                         Leave Group
                     </button>
                 }
+                <!-- Options only visible to admins of the group -->
                 @if(userAdmin){
                     <button type="button" class="groupOptionButton btn btn-primary" data-bs-toggle="modal" data-bs-target="#channelModal">
                         Create Channel
@@ -38,7 +40,7 @@
                     <button type="button" class="groupOptionButton btn btn-primary">
                         Manage Users
                     </button>
-                    <button type="button" class="groupOptionButton warning btn btn-primary">
+                    <button (click)="deleteGroup()" type="button" class="groupOptionButton warning btn btn-primary">
                         Delete Group
                     </button>
                 }

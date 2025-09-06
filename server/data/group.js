@@ -1,10 +1,11 @@
 const fs = require('fs/promises');
 
 class Group {
-    constructor(name, id, channels=[]){
+    constructor(name, id, channels=[], joinRequests=[]){
         this.name = name;
         this.id = id;
         this.channels = channels;
+        this.joinRequests = joinRequests;
     }
 }
 

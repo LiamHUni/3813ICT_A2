@@ -8,27 +8,42 @@
       "Channel 3",
       "Channel 4",
       "Channel 5"
-    ]
+    ],
+    "joinRequests": []
   },
   {
     "name": "WIL",
     "id": 1,
-    "channels": []
+    "channels": [
+      "Planning",
+      "Link",
+      "Updates"
+    ],
+    "joinRequests": [
+      "user"
+    ]
   },
   {
     "name": "Math",
     "id": 2,
-    "channels": []
+    "channels": [],
+    "joinRequests": [
+      "user"
+    ]
   },
   {
     "name": "Science",
     "id": 3,
-    "channels": []
+    "channels": [],
+    "joinRequests": []
   },
   {
     "name": "English",
     "id": 4,
-    "channels": []
+    "channels": [],
+    "joinRequests": [
+      "user"
+    ]
   },
   {
     "name": "FBGC",
@@ -36,26 +51,27 @@
     "channels": [
       "DND",
       "Gaming"
+    ],
+    "joinRequests": [
+      "user"
     ]
   },
   {
     "name": "Yeah",
     "id": 6,
-    "channels": []
+    "channels": [],
+    "joinRequests": []
   },
   {
     "name": "Another Group",
     "id": 7,
-    "channels": []
+    "channels": [],
+    "joinRequests": []
   },
   {
-    "name": "Yippie",
+    "name": "Testing",
     "id": 8,
-    "channels": []
-  },
-  {
-    "name": "TestGroupThing",
-    "id": 9,
-    "channels": []
+    "channels": [],
+    "joinRequests": []
   }
 ]
