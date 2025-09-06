@@ -21,7 +21,7 @@ ng generate component component-name
 ```
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
-<pre>
+
 ### /account/??? routes
 ```/login```
 Used to sign in user
@@ -121,9 +121,86 @@ Parameters:
 
 Return:
   {valid: boolean, mess: string}
-</pre>
+
+### /group/??? routes
+```/create```
+Creates new group
+
+Parameters:
+  name: string,
+  user: string
 
 
+```/retrieveAll```
+Returns all groups
+
+Parameters:
+  username: string
+
+Return:
+  Array of groups
+
+```/retreieve```
+Retrieves single group
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  Group object
+
+```/requestAccess```
+Adds user to joinRequest in group object
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  {valid:boolean, mess:string}
+
+
+```/getRequests```
+Get all join requests from group
+
+Parameters:
+  groupID: number
+
+Return:
+  Array of strings
+
+  
+```/createChannel```
+Add channel to group
+
+Parameters:
+  groupID: number,
+  channelName: string
+
+Return:
+  {valid:boolean, mess:string}
+  
+```/deleteChannel```
+Deletes channel from group
+
+Parameters:
+  groupID: number,
+  channelName: string
+
+Return:
+  {valid:boolean, mess:string}
+  
+```/deleteGroup```
+Deletes group
+
+Parameters:
+  groupID: number,
+
+Return:
+  {valid:boolean, mess:string}
+
+  
 
 
 ### /group/??? routes
