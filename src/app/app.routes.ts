@@ -6,17 +6,21 @@ import { CreateUser } from './components/create-user/create-user';
 import { CreateGroup } from './components/create-group/create-group';
 import { GroupScreen } from './components/group-screen/group-screen';
 import { UserManager } from './components/user-manager/user-manager';
+import { signedInGuard } from '../guards/signed-in-guard';
+import { signedOutGuard } from '../guards/signed-out-guard';
 
 export const routes: Routes = [
     {
         path:"",
         component:Login,
         title:"Login",
+        canActivate:[signedOutGuard]
     },
     {
         path:"main",
         component:MainScreen,
         title:"Main Page",
+        canActivate: [signedInGuard],
         children:[
             {
                 path:"groupBrowser",
