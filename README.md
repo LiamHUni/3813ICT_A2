@@ -22,9 +22,111 @@ ng generate component component-name
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
 
-# /account/??? routes
+### /account/??? routes
+```/login```
+Used to sign in user
 
-# /group/??? routes
+Parameters:
+  username: string
+  password: string
+
+Return:
+  {
+    username: string,
+    email: string,
+    roles: [],
+    groups: []
+  }
+
+```/create```
+Used to create new user
+
+Parameters:
+  username: string,
+  email: string,
+  password: string
+
+Return:
+  {valid: boolean, mess: string}
+
+```/retrieve```
+Used to get information on single user
+
+Parameters:
+  username: string
+
+Return:
+  {
+    username: string,
+    email: string,
+    roles: [],
+    groups: []
+  }
+
+```/leaveGroup```
+Removes group from users group array
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  {valid: boolean, mess: string}
+
+```/allOfGroup```
+Returns all users of a group
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  Array of users
+  
+```/retrieveALl```
+Returns all users
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  Array of users
+
+```/setRoles```
+Sets users rolls
+
+Parameters:
+  username: string,
+  roles: []
+
+Return:
+  {valid: boolean, mess: string}
+
+```/delete```
+Deletes user from user array
+
+Parameters:
+  username: string,
+
+Return:
+  {valid: boolean, mess: string}
+
+```/joinGroup```
+Adds group to users group array
+
+Parameters:
+  username: string,
+  groupID: number
+
+Return:
+  {valid: boolean, mess: string}
+
+
+
+
+
+### /group/??? routes
 
 ## File Layout
 ```
