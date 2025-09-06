@@ -82,11 +82,6 @@ export class AccountService {
     return this.http.post<genResults>(this.url+"setRoles", {username, roles});
   }
 
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   deleteUser(username:string){
     return this.http.post<genResults>(this.url+"delete", {username});
   }

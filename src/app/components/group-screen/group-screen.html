@@ -57,8 +57,10 @@
                 <!-- Heading -->
                 <div style="display: flex; justify-content: space-between;">
                     <span class="fs-4">{{channel}}</span>
-                    <!-- Delete Channel button -->
-                    <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>
+                    @if(userAdmin){
+                        <!-- Delete Channel button -->
+                        <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>
+                    }
                 </div>
                 <hr>
                 <!-- Chat message area -->

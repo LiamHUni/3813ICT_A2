@@ -56,10 +56,10 @@
                         <button (click)="editRoles()" class="btn btn-primary">Roles</button>
                         <!-- Displays only if managing group -->
                         @if(groupID){
-                            <button (click)="kickFromGroup()" class="btn btn-warning">Kick</button>
+                            <button (click)="kickFromGroup(user.username)" class="btn btn-warning">Kick</button>
                         }
                         <!-- Delete User -->
-                        <button (click)="deleteUser()" class="btn btn-danger">Delete</button>
+                        <button (click)="deleteUser(user.username)" class="btn btn-danger">Delete</button>
                     </div>
                 </th>
             </tr>

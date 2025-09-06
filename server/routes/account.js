@@ -128,7 +128,7 @@ router.post('/allOfGroup', (req, res)=>{
     .filter(u=>u.username !== username)
     .filter(u=>u.groups.some(g=>g.id === groupID))
     .map(u=>({username: u.username, roles:u.roles}));
-    console.log(usersOfGroup);
+    // console.log(usersOfGroup);
 
 
     res.json(usersOfGroup);
@@ -157,10 +157,29 @@ router.post('/delete', (req, res)=>{
     const {username} = req.body;
 
     //Find user
+    let user = users.find(u => u.username === username);
+    //Get user index in users group
+    let index = users.indexOf(user);
+    //Remove from users group
+    if(index !== -1){
+        users.splice(index,1);
+    }
+    //Update user JSON file
+    updateUserJSON();
 
-    //Delete from user array
+    //Remove their join requests from any group
+    groups.forEach(g => {
+        let groupIndex = g.joinRequests.indexOf(username);
+        if(groupIndex !== -1){
+            g.joinRequests.splice(groupIndex,1);
+            console.log("removed from:"+g.name);
+        }
+    });
+    console.log(groups);
+    updateGroupJSON();
 
-    //updateUserJSON();
+    res.json({valid:true, mess:""});
+
 });
 
 router.post('/joinGroup', (req, res)=>{
@@ -169,11 +188,11 @@ router.post('/joinGroup', (req, res)=>{
     //Removes user from group join requests array
     let group = groups.find(g => g.id === groupID);
     let index = group.joinRequests.indexOf(username);
-    console.log(index);
+    // console.log(index);
     if(index !== -1){
         group.joinRequests.splice(index,1);
     }
-    console.log(groups);
+    // console.log(groups);
     updateGroupJSON();
 
     //Add group to user group array

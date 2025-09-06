@@ -72,12 +72,24 @@ export class UserManager {
 
   }
 
-  kickFromGroup(){
-
+  kickFromGroup(username:string){
+    this.accountService.leaveGroup(this.groupID, username).subscribe(
+      res=>{
+        if(res.valid){
+          this.retrieveGroupUsers();
+        }
+      }
+    );
   }
 
-  deleteUser(){
-
+  deleteUser(username:string){
+    this.accountService.deleteUser(username).subscribe(
+            res=>{
+        if(res.valid){
+          this.retrieveGroupUsers();
+        }
+      }
+    );
   }
 
 }

@@ -48,16 +48,6 @@
         "name": "Testing",
         "id": 8,
         "admin": true
-      },
-      {
-        "name": "WIL",
-        "id": 1,
-        "admin": false
-      },
-      {
-        "name": "WIL",
-        "id": 1,
-        "admin": false
       }
     ]
   },
@@ -92,6 +82,11 @@
       {
         "name": "Math",
         "id": 2,
+        "admin": false
+      },
+      {
+        "name": "Another Group",
+        "id": 7,
         "admin": false
       }
     ]
