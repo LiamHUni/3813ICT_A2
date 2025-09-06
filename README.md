@@ -24,6 +24,7 @@ All routing goes through Server.js, but is split between two sub routes ```/acco
 
 
 ## File Layout
+```
 /
 ├─ server/
 |  ├─ server.js  #Entry point to server, utilises subroutes for all logic
@@ -59,4 +60,4 @@ All routing goes through Server.js, but is split between two sub routes ```/acco
    ├─ services/
       ├─ account-service.ts #Handles communicating to account.js in Server
       ├─ group-service.ts #Handles communicating to group.js in Server
-
+```
