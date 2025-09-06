@@ -21,7 +21,7 @@ ng generate component component-name
 ```
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
-
+<pre>
 ### /account/??? routes
 ```/login```
 Used to sign in user
@@ -121,7 +121,7 @@ Parameters:
 
 Return:
   {valid: boolean, mess: string}
-
+</pre>
 
 
 
