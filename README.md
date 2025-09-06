@@ -1,24 +1,34 @@
-# 3813ICTA1
+# s5333819 - 3813ICTA1
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+## Use of git repo
+During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when working with new installs which could affect the overall project, such as with the modals being added. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
 
-## Development server
+## Data Structure
+The two main data structures were users and groups, all required information was stored in these two. The storage of these arrays were done via seperate JavaScript files in the server, and saved to JSON files as a temporary storage solution. The layout of these data structures are shown below:
 
-To start a local development server, run:
-
-```bash
-ng serve
+### Users:
+```
+username: string,
+email: string,
+password: string,
+roles: string[],
+groups: [
+  {
+    name: string,
+    id: number,
+    admin: boolean
+  }
+]
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+### Groups:
 ```
+name: string,
+id: number,
+channels: string[],
+joinRequests: string[]
+```
+
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
 
