@@ -1,4 +1,4 @@
-# s5333819 - 3813ICTA1
+# s5333819 - 3813ICTA2
 
 ## Use of git repo
 During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when working with new installs which could affect the overall project, such as with the modals being added. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
