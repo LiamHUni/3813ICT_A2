@@ -15,7 +15,7 @@
                     @for(channel of groupInfo.channels; track channel){
                         <li class="channelPill">
                             <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
-                                {{channel}}
+                                {{channel.name}}
                             </a>
                         </li>
                     }@empty{
@@ -56,7 +56,7 @@
             <div class="p-3 text-white d-flex flex-column vh-100">
                 <!-- Heading -->
                 <div style="display: flex; justify-content: space-between;">
-                    <span class="fs-4">{{channel}}</span>
+                    <span class="fs-4">{{channel.name}}</span>
                     @if(userAdmin){
                         <!-- Delete Channel button -->
                         <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>

@@ -7,13 +7,45 @@
 const express = require('express');
 const router = express.Router();
 
+/*
+*   Mongodb setup/connection
+*/
+const {ObjectId} = require('mongodb');
+const {MongoClient} = require('mongodb');
+const url = 'mongodb://localhost:27017';
+const client = new MongoClient(url);
+
+//Server functions
+const { read, remove, add, update, removeAll } = require('../data/mongoFunctions.js');
+
+
+const dbName = 'A2';
+let collection;
+
+async function connectMongo(base){
+    await client.connect();
+    // console.log('Connected');
+    const db = client.db(dbName);
+    collection = db.collection(base);
+}
+
+class Group {
+    constructor(name, id){
+        this.name = name;
+        this.id = id;
+    }
+}
+
 //Allows use of group info in data folder
-const {Group, groups, updateGroupJSON} = require('../data/group.js');
+const {groups, updateGroupJSON} = require('../data/group.js');
 
 const {users, updateUserJSON} = require('../data/user.js');
 
-router.post('/create', (req, res)=>{
+router.post('/create', async(req, res)=>{
     const {name, user} = req.body;
+
+    await connectMongo("groups");
+    let groups = await read(collection, {});
 
     const nameMatch = groups.find(g => g.name === name);
 
@@ -21,17 +53,20 @@ router.post('/create', (req, res)=>{
     if(nameMatch){
         console.log("Group name already used");
         res.json({valid: false, mess:"Group name already used"})
+
     // Creates new group, returns valid
     }else{
         let newGroup = new Group(name, id = nextID(groups));
-        groups.push(newGroup);
+        await add(collection, newGroup);
         console.log(newGroup);
         res.json({valid: true, mess:"Group successfully created"});
+
         //Adds newly made group to user who made it's group list
-        addGroupToUser(newGroup, user)
-        //Updates the group json file
-        updateGroupJSON();
+        await connectMongo("userGroup");
+        await add(collection, {userID: user, groupID:newGroup.id});
     }
+
+    client.close();
 });
 
 //Finds next available (highest) id
@@ -42,36 +77,34 @@ function nextID(list){
     return highestID + 1;
 }
 
-//Adds group to users group list
-function addGroupToUser(group, username){
-    console.log("ID:"+username);
-    let user = users.find(u=> u.username === username);
-    console.log(user);
-    user.groups.push({name:group.name, id:group.id, admin:true});
-    updateUserJSON();
-}
-
 
 //Sends all groups for group browser page
-router.post('/retrieveAll', (req, res)=>{
+router.post('/retrieveAll', async(req, res)=>{
     const {username} = req.body;
 
     //Find all groups id's user is part of
-    const userGroups = users.find(u=>u.username === username)?.groups.map(g=>{return g.id});
+    await connectMongo("userGroup");
+    const userGroups = await read(collection, {userID: username});
+    const userGroupID = userGroups.map(g => g.groupID);
+    console.log(userGroupID);
 
-    //Creates deep copy of groups list, ensures original list is not affected
-    const groupCopy = groups.map(g=>({...g}));
-
+    //Retrieve all groups
+    await connectMongo("groups");
+    const groups = await read(collection, {});
+    const groupID = groups.map(g=>g.id);
+    
+    await connectMongo("requests");
+    const requests = await read(collection, {userID: username});
+    const requestID = requests.map(r=>r.groupID);
+    console.log(requests);
+    
     //Removing and adding required attributes
-    groupCopy.forEach(g=>{
-        //Remove channel attributes
-        delete g.channels;
-
+    groups.forEach(g=>{
         //Determines users status to group
         //Status can be requested, joined, or none
-        if(g.joinRequests.includes(username)){
+        if(requestID.includes(g.id)){
             g.status = "Pending"
-        }else if(userGroups.includes(g.id)){
+        }else if(userGroupID.includes(g.id)){
             g.status = "Joined"
         }else {
             g.status = "none"
@@ -79,94 +112,103 @@ router.post('/retrieveAll', (req, res)=>{
         delete g.joinRequests;
     });
 
-    res.json(groupCopy);
+    res.json(groups);
+    client.close();
 });
 
 
 //Sends all information about single group
-router.post('/retrieve', (req, res)=>{
+router.post('/retrieve', async(req, res)=>{
     const {id} = req.body;
 
-    const group = groups.find(g => g.id === id);
-    res.json(group);
+    await connectMongo("groups");
+    const group = await read(collection, {id: id});
+
+    await connectMongo("channels");
+    const channels = await read(collection, {groupID: id});
+    group[0].channels = channels;
+    console.log(group[0]);
+    res.json(group[0]);
+    // client.close();
 });
 
-router.post('/requestAccess', (req, res)=>{
+router.post('/requestAccess', async(req, res)=>{
     const {username, groupID} = req.body;
 
-    //Find group
-    const group = groups.find(g => g.id === groupID);
-    group.joinRequests.push(username);
-    updateGroupJSON();
+    await connectMongo("requests");
+    await add(collection, {userID: username, groupID});
 
     res.json({valid:true, mess:""});
+    client.close();
 });
 
-router.post('/getRequests', (req, res)=>{
+router.post('/getRequests', async(req, res)=>{
     const {groupID} = req.body;
 
-    const requests = groups.find(g => g.id === groupID)?.joinRequests;
+    // Gets requests for current group
+    await connectMongo("requests");
+    let requests = await read(collection, {groupID});
+    requests = requests.map(r=>r.userID);
 
-    res.json(requests);
+    // Get usernames for requests
+    await connectMongo("users");
+    let users = await read(collection, {username: {$in: requests}})
+    users = users.map(u=>u.username);
+
+    res.json(users);
+    client.close();
 });
 
 //Adds new channel to group
-router.post('/createChannel', (req, res)=>{
+router.post('/createChannel', async(req, res)=>{
     const {groupID, channelName} = req.body;
 
-    const group = groups.find(g => g.id === groupID);
-    group.channels.push(channelName);
-    updateGroupJSON();
+    await connectMongo("channels");
+    await add(collection, {groupID, name:channelName});
+    console.log(channelName);
 
+    client.close();
     res.json({valid:true, mess:""});
 });
 
 //Delete channel from group
-router.post('/deleteChannel', (req, res)=>{
+router.post('/deleteChannel', async(req, res)=>{
     const {groupID, channelName} = req.body;
+    console.log(channelName);
+    await connectMongo("channels");
+    await remove(collection, {_id: new ObjectId(channelName)});
 
-    let group = groups.find(g => g.id === groupID);
-    let index = group.channels.indexOf(channelName);
-    if(index !== -1){
-        group.channels.splice(index,1);
-    }
-    updateGroupJSON();
-
+    client.close();
     res.json({valid:true, mess:""});
 });
 
 //Delete group
-router.post('/deleteGroup', (req, res)=>{
+router.post('/deleteGroup', async(req, res)=>{
     const {groupID} = req.body;
 
-    //Remove the group from all users group lists
-    const user = users.map(u=>removeGroup(u, groupID));
-    updateUserJSON();
+    // Delete user group relation
+    await connectMongo("userGroup");
+    await removeAll(collection, {groupID});
 
-    //Remove group from group array
-    //Find group index in group array
-    const index = groups.indexOf(groups.find(g=>g.id===groupID));
-    //Remove if it exists
-    if(index !== -1){
-        groups.splice(index, 1);
-    }
-    updateGroupJSON();
+    // Get group channels
+    await connectMongo("channels");
+    let channels = await read(collection, {groupID});
+    channels = channels.map(c => c._id);
+    
+    // Delete channels
+    await removeAll(collection, {groupID});
+    
+    // Delete all messages from channels
+    await connectMongo("messages");
+    await removeAll(collection, {channelID: {$in: channels}});
 
+    //Delete group
+    await connectMongo("groups");
+    await remove(collection, {id: groupID});
+
+    client.close();
     res.json({valid:true, mess:""});
 });
-
-function removeGroup(user, groupID){
-    //Find the index of the group inside user group array
-    const index = user.groups.indexOf(user.groups.find(g=>g.id===groupID));
-    //Remove if it exists
-    if(index !== -1){
-        user.groups.splice(index, 1);
-    }
-    // console.log(user);
-    return user;
-}
-
-
 
 
 module.exports = router;

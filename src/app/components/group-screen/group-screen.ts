@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class GroupScreen {
   //Gives defualt name to prevent error message in quick loading time
   groupInfo:object|any = {name:"loading"};
-  channel: string = "temp";
+  channel: object|any = "temp";
 
   userInfo: any;
   userAdmin: boolean = false;
@@ -94,7 +94,7 @@ export class GroupScreen {
   }
 
   deleteChannel(){
-    this.groupService.deleteChannel(this.groupInfo.id, this.channel).subscribe(
+    this.groupService.deleteChannel(this.groupInfo.id, this.channel._id).subscribe(
       res=>{
         if(res.valid){
           this.retrieveGroupInfo(Number(this.groupInfo.id));

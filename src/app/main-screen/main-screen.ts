@@ -14,14 +14,6 @@ import { UserManager } from '../components/user-manager/user-manager';
 
 export class MainScreen {
 
-  //Empty user information format
-  // userInfos = {
-  //   username: "",
-  //   email: "",
-  //   roles: [] as string[],
-  //   groups: [] as []
-  // }
-
   userInfo:any;
 
   userManager: boolean = false;
@@ -59,6 +51,7 @@ export class MainScreen {
     //Converts to string to prevent '0' being set to ''
     this.groupService.curGroup$.next(String(id));
     this.router.navigateByUrl('/main/groupChat');
+    this.userManager = false;
   }
 
   toggleUserManager(){
