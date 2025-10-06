@@ -23,13 +23,13 @@ let collection;
 
 async function connectMongo(base){
     await client.connect();
-    console.log('Connected');
+    // console.log('Connected');
     const db = client.db(dbName);
     collection = db.collection(base);
 }
 
 //Allows use of user info in data folder
-const {users, updateUserJSON} = require('../data/user.js');
+// const {users, updateUserJSON} = require('../data/user.js');
 
 // const{groups, updateGroupJSON} = require('../data/group.js');
 

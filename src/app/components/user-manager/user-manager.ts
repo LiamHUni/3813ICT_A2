@@ -29,6 +29,7 @@ export class UserManager {
   constructor(private accountService:AccountService, private groupService:GroupService){}
 
   ngOnInit(){
+    console.log("ID" + this.groupID);
     if(this.groupID){
       this.retrieveGroupUsers();
       this.retrieveJoinRequests();

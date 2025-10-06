@@ -1,7 +1,6 @@
 const {ObjectId} = require('mongodb');
 
 exports.read = async function(collection, query){
-    // console.log(query);
     const items = await collection.find(query).toArray();
     return items;
 }
