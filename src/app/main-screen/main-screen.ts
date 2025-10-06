@@ -57,14 +57,4 @@ export class MainScreen {
   toggleUserManager(){
     this.userManager = true;
   }
-
-  deleteSelf(){
-    this.accountService.deleteUser(this.userInfo.username).subscribe(
-      res=>{
-        if(res.valid){
-          this.logout();
-        }
-      }
-    );
-  }
 }

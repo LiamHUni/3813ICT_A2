@@ -1,0 +1,40 @@
+<div class="p-3 text-white d-flex flex-column vh-100">
+    <span class="fs-4">Profile</span>
+    <hr>
+    <div class="d-flex flex-column mb-auto p-3 bg-dark">
+        <!-- User Info -->
+        <div>
+            <span class="fs-5">Username:</span>
+            <br>
+            {{userInfo.username}}
+            <br>
+            <span class="fs-5">Email:</span>
+            <br>
+            {{userInfo.email}}
+            <br>
+            <span class="fs-5">Roles:</span>
+            <br>
+            @for(role of userInfo.roles; track role){
+                <div class="tableText">
+                    - {{role}}
+                </div>
+            }
+        </div>
+        <br>
+        <!-- Profile picture selection -->
+        <div>
+            Profile Picture
+            <input type="file" (change)="onFileSelected($event)" />
+            <div *ngIf="base64Image">
+                <img [src]="base64Image" alt="Preview" style="max-width: 1000px; max-height: 200px;"/>
+            </div>
+            <br>
+            <button role="button" (click)="deleteSelf()" class="btn btn-primary">Update Profile Picture</button>
+        </div>
+    </div>
+    <!-- Delete account button -->
+    <div>
+        <button role="button" (click)="deleteSelf()" class="btn btn-danger">Delete Account</button>
+    </div>
+
+</div>
