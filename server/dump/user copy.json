@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "username": "super",
+    "email": "super@test.com",
+    "password": "123",
+    "roles": [
+      "user",
+      "groupAdmin",
+      "superAdmin"
+    ]
+  },
+  {
+    "id": 2,
+    "username": "user",
+    "email": "user@test.com",
+    "password": "abc",
+    "roles": [
+      "user"
+    ]
+  },
+  {
+    "id": 3,
+    "username": "admin",
+    "email": "admin@test.com",
+    "password": "qwe",
+    "roles": [
+      "user",
+      "groupAdmin"
+    ]
+  },
+  {
+    "id": 4,
+    "username": "noGroup",
+    "email": "no",
+    "password": "123",
+    "roles": [
+      "user",
+      "groupAdmin"
+    ]
+  }
+]

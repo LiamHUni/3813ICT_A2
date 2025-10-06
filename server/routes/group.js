@@ -63,21 +63,21 @@ router.post('/retrieveAll', (req, res)=>{
     const groupCopy = groups.map(g=>({...g}));
 
     //Removing and adding required attributes
-    groupCopy.forEach(g=>{
-        //Remove channel attributes
-        delete g.channels;
+    // groupCopy.forEach(g=>{
+    //     //Remove channel attributes
+    //     delete g.channels;
 
-        //Determines users status to group
-        //Status can be requested, joined, or none
-        if(g.joinRequests.includes(username)){
-            g.status = "Pending"
-        }else if(userGroups.includes(g.id)){
-            g.status = "Joined"
-        }else {
-            g.status = "none"
-        }
-        delete g.joinRequests;
-    });
+    //     //Determines users status to group
+    //     //Status can be requested, joined, or none
+    //     if(g.joinRequests.includes(username)){
+    //         g.status = "Pending"
+    //     }else if(userGroups.includes(g.id)){
+    //         g.status = "Joined"
+    //     }else {
+    //         g.status = "none"
+    //     }
+    //     delete g.joinRequests;
+    // });
 
     res.json(groupCopy);
 });
