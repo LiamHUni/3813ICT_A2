@@ -19,7 +19,7 @@ export class SocketService {
     return ()=>{this.socket.disconnect();}
   }
 
-  joinChanne(room:any, user:any){
+  joinChannel(room:any, user:any){
     this.socket.emit('roomJoin', {room, user});
   }
 

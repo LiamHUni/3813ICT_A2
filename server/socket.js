@@ -5,16 +5,19 @@ module.exports = {
 
             socket.on('roomJoin', ({room, user})=>{
                 socket.join(room);
-                io.to(room).emit('message', {user:{name:"Server"}, message:{message:`${user.username} has joined the chat`}});
+                console.log("1", room);
+                io.to(room).emit('message', {user:{username:"Server"}, message:`${user.username} has joined the chat`});
             });
 
             socket.on('sendMessage', ({room, user, message}) => {
+                console.log("2", room);
                 io.to(room).emit('message', {user, message});
             });
 
             // Custom disconnect function, allows for leaving message to be sent
             socket.on('roomLeave', ({room, user})=>{
-                io.to(room).emit('message', {user:{name:"Server"}, message:{message:`${user.username} has left the chat`}});
+                socket.leave(room);
+                io.to(room).emit('message', {user:{username:"Server"}, message:`${user.username} has left the chat`});
             });
         })
     }

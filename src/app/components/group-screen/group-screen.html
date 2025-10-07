@@ -66,7 +66,12 @@
                     <!-- Chat message area -->
                     <div class="scroll mb-auto">
                         <ul class="nav nav-pills flex-column">
-
+                            @for(message of messages; track message){
+                            <div>
+                                {{message.user.username}}
+                                {{message.message}}
+                            </div>
+                            }
                         </ul>
                     </div>
 

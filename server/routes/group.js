@@ -194,9 +194,9 @@ router.post('/getChannel', async(req, res)=>{
 
     channel[0].messages = messages;
 
-    console.log(channel[0]);
+    // console.log(channel[0]);
 
-    client.close();
+    // client.close();
     res.json(channel[0]);
 });
 

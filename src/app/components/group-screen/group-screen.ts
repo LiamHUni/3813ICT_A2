@@ -5,6 +5,7 @@ import { ChannelModal } from '../channel-modal/channel-modal';
 import { AccountService } from '../../../services/account-service';
 import { UserManager } from '../user-manager/user-manager';
 import { Router } from '@angular/router';
+import { SocketService } from '../../../services/socket';
 
 @Component({
   selector: 'app-group-screen',
@@ -31,9 +32,12 @@ export class GroupScreen {
 
   messages: any = [];
 
-  constructor(private groupService:GroupService, private accountService:AccountService, private router:Router){}
+  ioConnection:any;
+
+  constructor(private groupService:GroupService, private accountService:AccountService, private router:Router, private socketService:SocketService){}
 
   ngOnInit(){
+    this.messages = [];
     //Subscribes to observer to recieve group id from main-screen.ts
     this.groupService.curGroup$.subscribe(data=>{
       if(data){
@@ -48,6 +52,19 @@ export class GroupScreen {
       }
       this.viewingChat = true;
     });
+    this.initIoConnection();
+  }
+
+
+  /*
+  * Inital Functions
+  */
+  private initIoConnection(){
+    this.socketService.initSocket();
+    this.ioConnection = this.socketService.getMessage()
+      .subscribe((message:any)=>{
+        this.messages.push(message);
+      });
   }
 
   retrieveGroupInfo(id:number){
@@ -56,6 +73,7 @@ export class GroupScreen {
         this.groupInfo = res;
         if(this.groupInfo.channels){
           this.channel = this.groupInfo.channels[0];
+          this.openChannel(this.channel._id);
         }else{
           this.channel = "";
         }
@@ -72,28 +90,52 @@ export class GroupScreen {
     this.userAdmin = this.userInfo.groups.find((group: {name:string, id:number, admin:boolean})=>group.id === id)?.admin;
   }
 
-  
-  //No functionality required for assignment 1
-  submit(){
-    
+  /*
+  * Socket Functions
+  */
+
+  joinChannel(){
+    const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
+    this.socketService.joinChannel(this.channel._id, userMesInfo);
   }
   
+  // Send message
+  submit(){
+    const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
+    if(this.chatMessage){
+      this.socketService.sendMessage(this.channel._id, userMesInfo, this.chatMessage);
+      this.chatMessage = "";
+    }else{
+      console.log("No Message");
+    }
+  }
+  
+  leaveChannel(room:string){
+    const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
+    this.socketService.leaveChannel(room, userMesInfo);
+  }
+  
+
+  /*
+  * Channel Management
+  */
+  
   openChannel(id:string){
-    console.log(id);
+    this.leaveChannel(this.channel._id);
+    console.log("openChannel");
     this.channel = this.groupService.getChannel(id).subscribe(
       res=>{
         if(res){
           this.channel = res;
+          this.messages = [];
+          this.joinChannel();
         }
       }
     );
-    // console.log(name);
     this.viewingChat = true;
-    // console.log(this.messages);
   }
 
   createChannel(channelName: any){
-    // console.log(channelName);
     this.groupService.createChannel(this.groupInfo.id, channelName).subscribe(
       res=>{
         if(res.valid){
