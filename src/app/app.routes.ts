@@ -6,6 +6,8 @@ import { CreateUser } from './components/create-user/create-user';
 import { CreateGroup } from './components/create-group/create-group';
 import { GroupScreen } from './components/group-screen/group-screen';
 import { UserManager } from './components/user-manager/user-manager';
+import { Profile } from './components/profile/profile';
+
 import { signedInGuard } from '../guards/signed-in-guard';
 import { signedOutGuard } from '../guards/signed-out-guard';
 
@@ -46,6 +48,11 @@ export const routes: Routes = [
                 path:"userManagment",
                 component: UserManager,
                 title: "UserManager"
+            },
+            {
+                path:"profile",
+                component: Profile,
+                title: "Profile"
             }
         ]
     }

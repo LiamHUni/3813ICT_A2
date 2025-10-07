@@ -94,4 +94,7 @@ export class AccountService {
     return this.http.post<[]>(this.url+"retrieveAll", {username});
   }
   
+  updateProfileImage(username:string, image:string){
+    return this.http.post<genResults>(this.url+"updatepfp", {username, image});
+  }
 }

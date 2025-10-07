@@ -276,6 +276,16 @@ router.post('/joinGroup', async(req, res)=>{
     res.json({valid:true, mess:""});
 });
 
+router.post('/updatepfp', async(req, res)=>{
+    const {username, image} = req.body;
+    
+    await connectMongo("users");
+    await update(collection, {username}, {$set:{pfpImage:image}});
+    
+    client.close();
+    res.json({valid:true, mess:""});
+});
+
 
 
 module.exports = router;
