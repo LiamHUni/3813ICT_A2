@@ -12,6 +12,7 @@ import { GroupService } from '../../../services/group-service';
 })
 export class Profile {
   userInfo:any;
+  profileImage: string | null = null;
 
 
   constructor(private router:Router, private accountService:AccountService, private groupService:GroupService){}
@@ -23,6 +24,7 @@ export class Profile {
       this.updateUserInfo();
     });
     console.log(this.userInfo);
+    this.profileImage = this.userInfo.pfpImage;
   }
   
   updateUserInfo(){    
@@ -32,7 +34,6 @@ export class Profile {
     }
   }
 
-  base64Image: string | null = null;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -42,7 +43,14 @@ export class Profile {
     const reader = new FileReader();
 
     reader.onload = () => {
-      this.base64Image = reader.result as string;
+      this.profileImage = reader.result as string;
+      this.accountService.updateProfileImage(this.userInfo.username, this.profileImage).subscribe(
+        res=>{
+          if(res.valid){
+            this.accountService.updateUserInfo(this.userInfo.username);
+          }
+        }
+      );
     };
 
     reader.onerror = error => {

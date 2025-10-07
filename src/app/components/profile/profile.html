@@ -4,32 +4,38 @@
     <div class="d-flex flex-column mb-auto p-3 bg-dark">
         <!-- User Info -->
         <div>
-            <span class="fs-5">Username:</span>
-            <br>
-            {{userInfo.username}}
-            <br>
-            <span class="fs-5">Email:</span>
-            <br>
-            {{userInfo.email}}
-            <br>
-            <span class="fs-5">Roles:</span>
-            <br>
-            @for(role of userInfo.roles; track role){
-                <div class="tableText">
-                    - {{role}}
-                </div>
-            }
+            <div>
+                <span class="fs-5">Username:</span>
+                <br>
+                {{userInfo.username}}
+                <br>
+                <br>
+                <span class="fs-5">Email:</span>
+                <br>
+                {{userInfo.email}}
+                <br>
+                <br>
+                <span class="fs-5">Roles:</span>
+                <br>
+                @for(role of userInfo.roles; track role){
+                    <div class="tableText">
+                        - {{role}}
+                    </div>
+                }
+            </div>
         </div>
         <br>
         <!-- Profile picture selection -->
         <div>
-            Profile Picture
+            <span class="fs-5">Profile Picture:</span>
+            <br>
             <input type="file" (change)="onFileSelected($event)" />
-            <div *ngIf="base64Image">
-                <img [src]="base64Image" alt="Preview" style="max-width: 1000px; max-height: 200px;"/>
+            <br>
+            <div *ngIf="profileImage">
+                <!-- <img [src]="profileImage" style="max-width: 500px; max-height: 500px;"/> -->
+                <img [src]="profileImage" width="200" height="200" class="rounded-circle me-2"/>
             </div>
             <br>
-            <button role="button" (click)="deleteSelf()" class="btn btn-primary">Update Profile Picture</button>
         </div>
     </div>
     <!-- Delete account button -->

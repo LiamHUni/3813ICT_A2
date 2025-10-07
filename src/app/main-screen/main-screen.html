@@ -38,7 +38,11 @@
                 <!-- Always active > user profile picture and name -->
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> 
                     <!-- Profile picture placeholder -->
-                    <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2"> 
+                    @if(userInfo.pfpImage){
+                        <img src={{userInfo.pfpImage}} alt="" width="32" height="32" class="rounded-circle me-2"> 
+                    }@else{
+                        <img src="./assets/images/UniLogo.png" alt="" width="32" height="32" class="rounded-circle me-2"> 
+                    }
                     <strong>{{userInfo.username}}</strong>
                 </a>
                 <!-- Togglable dropdown menu-->
