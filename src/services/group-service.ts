@@ -56,6 +56,10 @@ export class GroupService {
     return this.http.post<genResults>(this.url+"createChannel", {groupID, channelName});
   }
 
+  getChannel(channelID: string){
+    return this.http.post<[]>(this.url+"getChannel", {channelID});
+  }
+
   deleteChannel(groupID: number, channelName: string){
     return this.http.post<genResults>(this.url+"deleteChannel", {groupID, channelName});
   }
@@ -63,4 +67,8 @@ export class GroupService {
   deleteGroup(groupID: number){
     return this.http.post<genResults>(this.url+"deleteGroup", {groupID});
   }
+  
+  // getMessages(groupID: number){
+  //   return this.http.post<[]>(this.url+"getMessages", {groupID});
+  // }
 }

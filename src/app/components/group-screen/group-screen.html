@@ -12,9 +12,9 @@
             <div class="scroll mb-auto">
                 <ul class="nav nav-pills flex-column">
                     <!-- Loops through all channels -->
-                    @for(channel of groupInfo.channels; track channel){
+                    @for(channel of groupInfo.channels; track channel._id){
                         <li class="channelPill">
-                            <a role="button" (click)="openChannel(channel)" class="nav-link text-white">
+                            <a role="button" (click)="openChannel(channel._id)" class="nav-link text-white">
                                 {{channel.name}}
                             </a>
                         </li>
@@ -52,37 +52,37 @@
     <div class="rightSplit">
         <!-- Changes content between chat and user manager screen -->
         @if(viewingChat){
-        @if(channel){
-            <div class="p-3 text-white d-flex flex-column vh-100">
-                <!-- Heading -->
-                <div style="display: flex; justify-content: space-between;">
-                    <span class="fs-4">{{channel.name}}</span>
-                    @if(userAdmin){
-                        <!-- Delete Channel button -->
-                        <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>
-                    }
-                </div>
-                <hr>
-                <!-- Chat message area -->
-                <div class="scroll mb-auto">
-                    <ul class="nav nav-pills flex-column">
-
-                    </ul>
-                </div>
-
-                <!-- Message input form -->
-                <form >
-                    <div class="input-group">
-                        <div class="form-group col-md-11">
-                            <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
-                        </div>
-                        <div class="messageSend input-group-btn">
-                            <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
-                        </div>
+            @if(channel){
+                <div class="p-3 text-white d-flex flex-column vh-100">
+                    <!-- Heading -->
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="fs-4">{{channel.name}}</span>
+                        @if(userAdmin){
+                            <!-- Delete Channel button -->
+                            <button (click)="deleteChannel()" class="warning btn btn-primary">Delete Channel</button>
+                        }
                     </div>
-                </form>
-            </div>
-        }
+                    <hr>
+                    <!-- Chat message area -->
+                    <div class="scroll mb-auto">
+                        <ul class="nav nav-pills flex-column">
+
+                        </ul>
+                    </div>
+
+                    <!-- Message input form -->
+                    <form >
+                        <div class="input-group">
+                            <div class="form-group col-md-11">
+                                <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
+                            </div>
+                            <div class="messageSend input-group-btn">
+                                <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
         }@else{
             <app-user-manager [groupID]="groupInfo.id" [username]="userInfo.username"></app-user-manager>
             <!-- <app-user-manager [username]="userInfo.username"></app-user-manager> -->

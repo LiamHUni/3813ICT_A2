@@ -29,6 +29,8 @@ export class GroupScreen {
 
   modal: any;
 
+  messages: any = [];
+
   constructor(private groupService:GroupService, private accountService:AccountService, private router:Router){}
 
   ngOnInit(){
@@ -76,10 +78,18 @@ export class GroupScreen {
     
   }
   
-  openChannel(name:string){
+  openChannel(id:string){
+    console.log(id);
+    this.channel = this.groupService.getChannel(id).subscribe(
+      res=>{
+        if(res){
+          this.channel = res;
+        }
+      }
+    );
     // console.log(name);
     this.viewingChat = true;
-    this.channel = name;
+    // console.log(this.messages);
   }
 
   createChannel(channelName: any){
