@@ -16,7 +16,7 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
 //Server functions
-const { read, remove, add, update, removeAll } = require('../data/mongoFunctions.js');
+const { read, remove, add, update, removeMany } = require('../data/mongoFunctions.js');
 
 
 const dbName = 'A2';
@@ -217,7 +217,7 @@ router.post('/deleteGroup', async(req, res)=>{
 
     // Delete user group relation
     await connectMongo("userGroup");
-    await removeAll(collection, {groupID});
+    await removeMany(collection, {groupID});
 
     // Get group channels
     await connectMongo("channels");
@@ -225,11 +225,11 @@ router.post('/deleteGroup', async(req, res)=>{
     channels = channels.map(c => c._id);
     
     // Delete channels
-    await removeAll(collection, {groupID});
+    await removeMany(collection, {groupID});
     
     // Delete all messages from channels
     await connectMongo("messages");
-    await removeAll(collection, {channelID: {$in: channels}});
+    await removeMany(collection, {channelID: {$in: channels}});
 
     //Delete group
     await connectMongo("groups");
@@ -239,24 +239,18 @@ router.post('/deleteGroup', async(req, res)=>{
     res.json({valid:true, mess:""});
 });
 
-// router.post('/getMessages', async(req, res)=>{
-//     const {groupID} = req.body;
+router.post('/addMessage', async(req, res)=>{
+    const {channelID, userID, message} = req.body;
 
-//     await connectMongo("messages");
-//     let messages = await read(collection, {groupID});
-//     const messageUsernames = messages.map(m=>m.userID);
-
-//     await connectMongo("users");
-//     // const users = 
-//     for(m of messages){
-//         const user = await read(collection, {username:m.userID});
-//         m.username = user.username;
-//         m.pfpImage = user.pfpImage;
-//     }
+    const chanID = new ObjectId(channelID);
+    await connectMongo("messages");
+    await update(collection, {channelID}, {$inc:{order:1}});
+    await add(collection, {channelID, userID, message});
+    await removeMany(collection, {order:{$gt:10}}); // Increase value to allow more messages to be saved
     
-//     client.close();
-//     res.json(messages);
-// });
+    
+    client.close();
+});
 
 
 module.exports = router;
