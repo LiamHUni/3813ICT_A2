@@ -67,10 +67,22 @@
                     <div class="scroll mb-auto">
                         <ul class="nav nav-pills flex-column">
                             @for(message of messages; track message){
-                            <div>
-                                {{message.user.username}}
-                                {{message.message}}
+                            <div class="messRow">
+                                <div>
+                                    @if(message.user.username != "Server"){
+                                        <img src={{message.user.pfpImage}} alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                    }
+                                </div>
+                                <div>
+                                    <div style="font-weight: bold;">
+                                        {{message.user.username}}:
+                                    </div>
+                                    <div>
+                                        {{message.message}}
+                                    </div>
+                                </div>
                             </div>
+                            <hr>
                             }
                         </ul>
                     </div>

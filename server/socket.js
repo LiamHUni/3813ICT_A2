@@ -5,12 +5,10 @@ module.exports = {
 
             socket.on('roomJoin', ({room, user})=>{
                 socket.join(room);
-                console.log("1", room);
                 io.to(room).emit('message', {user:{username:"Server"}, message:`${user.username} has joined the chat`});
             });
 
             socket.on('sendMessage', ({room, user, message}) => {
-                console.log("2", room);
                 io.to(room).emit('message', {user, message});
             });
 

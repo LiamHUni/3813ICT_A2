@@ -65,6 +65,10 @@
     border-radius: 6px;
 }
 
+.messRow {
+    display: flex;
+}
+
 
 /* All below handles the scroll bar for when group list exceeds given space */
 
@@ -72,6 +76,8 @@
 .scroll {
     overflow-x: hidden;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 ::-webkit-scrollbar {
