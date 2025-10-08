@@ -13,10 +13,14 @@ exports.remove = async function(collection, query){
     await collection.deleteOne(query);
 }
 
-exports.removeAll = async function(collection, query){
+exports.removeMany = async function(collection, query){
     await collection.deleteMany(query);
 }
 
 exports.update = async function(collection, query, update){
     await collection.updateOne(query, update);
+}
+
+exports.updateMany = async function(collection, query, update){
+    await collection.updateMany(query, update);
 }

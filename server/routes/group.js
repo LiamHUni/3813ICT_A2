@@ -16,7 +16,7 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
 //Server functions
-const { read, remove, add, update, removeAll } = require('../data/mongoFunctions.js');
+const { read, add, update, updateMany, remove, removeMany } = require('../data/mongoFunctions.js');
 
 
 const dbName = 'A2';
@@ -58,7 +58,7 @@ router.post('/create', async(req, res)=>{
     }else{
         let newGroup = new Group(name, id = nextID(groups));
         await add(collection, newGroup);
-        console.log(newGroup);
+        // console.log(newGroup);
         res.json({valid: true, mess:"Group successfully created"});
 
         //Adds newly made group to user who made it's group list
@@ -86,7 +86,7 @@ router.post('/retrieveAll', async(req, res)=>{
     await connectMongo("userGroup");
     const userGroups = await read(collection, {userID: username});
     const userGroupID = userGroups.map(g => g.groupID);
-    console.log(userGroupID);
+    // console.log(userGroupID);
 
     //Retrieve all groups
     await connectMongo("groups");
@@ -96,7 +96,7 @@ router.post('/retrieveAll', async(req, res)=>{
     await connectMongo("requests");
     const requests = await read(collection, {userID: username});
     const requestID = requests.map(r=>r.groupID);
-    console.log(requests);
+    // console.log(requests);
     
     //Removing and adding required attributes
     groups.forEach(g=>{
@@ -127,7 +127,7 @@ router.post('/retrieve', async(req, res)=>{
     await connectMongo("channels");
     const channels = await read(collection, {groupID: id});
     group[0].channels = channels;
-    console.log(group[0]);
+    // console.log(group[0]);
     res.json(group[0]);
     // client.close();
 });
@@ -165,16 +165,44 @@ router.post('/createChannel', async(req, res)=>{
 
     await connectMongo("channels");
     await add(collection, {groupID, name:channelName});
-    console.log(channelName);
+    // console.log(channelName);
 
     client.close();
     res.json({valid:true, mess:""});
 });
 
+router.post('/getChannel', async(req, res)=>{
+    const {channelID} = req.body;
+
+    const chanID = new ObjectId(channelID)
+
+    // Gets channel information
+    await connectMongo("channels");
+    const channel = await read(collection, {_id: chanID});
+
+    // Get all messages from channel
+    await connectMongo("messages");
+    let messages = await read(collection, {channelID: channelID});
+
+    // Add user information per message
+    await connectMongo("users");
+    for(m of messages){
+        const user = await read(collection, {username:m.userID}); 
+        m.user = {username: user[0].username, pfpImage:user[0].pfpImage};
+    }
+
+    channel[0].messages = messages;
+
+    // console.log(channel[0]);
+
+    // client.close();
+    res.json(channel[0]);
+});
+
 //Delete channel from group
 router.post('/deleteChannel', async(req, res)=>{
     const {groupID, channelName} = req.body;
-    console.log(channelName);
+    // console.log(channelName);
     await connectMongo("channels");
     await remove(collection, {_id: new ObjectId(channelName)});
 
@@ -188,7 +216,7 @@ router.post('/deleteGroup', async(req, res)=>{
 
     // Delete user group relation
     await connectMongo("userGroup");
-    await removeAll(collection, {groupID});
+    await removeMany(collection, {groupID});
 
     // Get group channels
     await connectMongo("channels");
@@ -196,11 +224,11 @@ router.post('/deleteGroup', async(req, res)=>{
     channels = channels.map(c => c._id);
     
     // Delete channels
-    await removeAll(collection, {groupID});
+    await removeMany(collection, {groupID});
     
     // Delete all messages from channels
     await connectMongo("messages");
-    await removeAll(collection, {channelID: {$in: channels}});
+    await removeMany(collection, {channelID: {$in: channels}});
 
     //Delete group
     await connectMongo("groups");
@@ -208,6 +236,19 @@ router.post('/deleteGroup', async(req, res)=>{
 
     client.close();
     res.json({valid:true, mess:""});
+});
+
+router.post('/addMessage', async(req, res)=>{
+    const {channelID, userID, message, image} = req.body;
+
+    const chanID = new ObjectId(channelID);
+    await connectMongo("messages");
+    await updateMany(collection, {channelID}, {$inc:{order:1}});
+    await add(collection, {channelID, userID, message, image, order:0});
+    await removeMany(collection, {order:{$gte:10}}); // Increase value to allow more messages to be saved
+    
+    client.close();
+    res.json({valid:true});
 });
 
 

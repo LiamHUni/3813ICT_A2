@@ -15,7 +15,7 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
 //Server functions
-const { read, remove, add, update, removeAll } = require('../data/mongoFunctions.js');
+const { read, remove, add, update, removeMany } = require('../data/mongoFunctions.js');
 
 
 const dbName = 'A2';
@@ -251,7 +251,11 @@ router.post('/delete', async(req, res)=>{
     // Remove user from all groups
     // Remove all entires including username from user group linking table
     await connectMongo("userGroup");
-    await removeAll(collection, {userID: username});
+    await removeMany(collection, {userID: username});
+
+    // Remove all join requests from user
+    await connectMongo("requests");
+    await removeMany(collection, {userID: username});
 
     client.close();
     res.json({valid:true, mess:""});
