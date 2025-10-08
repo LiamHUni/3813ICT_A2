@@ -1,5 +1,3 @@
-const {ObjectId} = require('mongodb');
-
 exports.read = async function(collection, query){
     const items = await collection.find(query).toArray();
     return items;

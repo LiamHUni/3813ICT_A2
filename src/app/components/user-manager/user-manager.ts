@@ -17,6 +17,7 @@ interface User{
 })
 
 export class UserManager {
+  // Gets values given by parent component
   @Input() groupID!: number;
   @Input() username!: any;
 
@@ -30,6 +31,8 @@ export class UserManager {
 
   ngOnInit(){
     console.log("ID" + this.groupID);
+    // If page is being used inside a group, retrieves group users and join requests
+    // If not, retireves all users information
     if(this.groupID){
       this.retrieveGroupUsers();
       this.retrieveJoinRequests();
@@ -38,18 +41,17 @@ export class UserManager {
     }
   }
 
-  //Gets all users if page is used for all user management
+  // Gets all users if page is used for all user management
   retrieveAllUsers(){
     this.accountService.retrieveAll(this.username).subscribe(
       res=>{
         this.users = res;
-        // console.log(this.users);
       }
     );
   }
 
 
-  //Gets join requests if used for group user management
+  // Gets join requests if used for group user management
   retrieveJoinRequests(){
     this.groupService.getRequests(this.groupID).subscribe(
       res=>{
@@ -59,9 +61,12 @@ export class UserManager {
     );
   }
 
+  // Used to accept or decline join request
   answerRequest(username: string, allow: boolean){
+    // Sends user's username, group ID, and join decision to server
     this.accountService.joinGroup(username, this.groupID, allow).subscribe(
       res=>{
+        // Reloads page information
         if(res.valid){
           this.retrieveJoinRequests();
           this.retrieveGroupUsers();
@@ -79,7 +84,7 @@ export class UserManager {
     );
   }
 
-  //Button functions
+  // Button function
   editRoles(username:string){
     this.userToEdit = this.users.find(u=>u.username === username);
     this.roles = this.userToEdit.roles;
@@ -89,9 +94,11 @@ export class UserManager {
     this.userToEdit = "";
   }
 
+  // Sends username and groupID to server through account service to remove user from group
   kickFromGroup(username:string){
     this.accountService.leaveGroup(this.groupID, username).subscribe(
       res=>{
+        // Upon succesful deletion, update group list
         if(res.valid){
           this.retrieveGroupUsers();
         }
@@ -99,6 +106,7 @@ export class UserManager {
     );
   }
 
+  // Sends username to server through account service to delete user account
   deleteUser(username:string){
     this.accountService.deleteUser(username).subscribe(
       res=>{
@@ -112,5 +120,4 @@ export class UserManager {
       }
     );
   }
-
 }

@@ -2,12 +2,16 @@
     <span class="fs-4">Group Browser</span>
     <hr>
 
+    <!-- Loops through all groups -->
     <div class="scroll">
     @for(group of groups; track group.id){
         <div class="groupRow">
             <div style="width: 150px;">
+                <!-- If user isn't part of group or requested to join, enable button -->
                 @if(group.status === "none"){
                     <button (click)="requestJoin(group.id)" class="btn btn-primary">Request Join</button>
+
+                <!-- If user is part of group or requested to join, disable button -->
                 }@else{
                     <button class="btn btn-secondary" disabled>{{group.status}}</button>
                 }
