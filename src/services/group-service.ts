@@ -68,7 +68,8 @@ export class GroupService {
     return this.http.post<genResults>(this.url+"deleteGroup", {groupID});
   }
   
-  // getMessages(groupID: number){
-  //   return this.http.post<[]>(this.url+"getMessages", {groupID});
-  // }
+  addMessage(channelID: string, userID: string, message: string){
+    console.log(message);
+    return this.http.post<genResults>(this.url+"addMessage", {channelID, userID, message});
+  }
 }

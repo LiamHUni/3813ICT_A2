@@ -64,6 +64,7 @@ export class GroupScreen {
     this.ioConnection = this.socketService.getMessage()
       .subscribe((message:any)=>{
         this.messages.push(message);
+        console.log(this.messages);
       });
   }
 
@@ -87,7 +88,7 @@ export class GroupScreen {
     const userInfoTemp = localStorage.getItem('userInfo');
     this.userInfo = userInfoTemp ? JSON.parse(userInfoTemp): null;
     //Finds group in user group array, checks admin value
-    this.userAdmin = this.userInfo.groups.find((group: {name:string, id:number, admin:boolean})=>group.id === id)?.admin;
+    this.userAdmin = this.userInfo.roles.includes("superAdmin", "groupAdmin");
   }
 
   /*
@@ -104,6 +105,13 @@ export class GroupScreen {
     const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
     if(this.chatMessage){
       this.socketService.sendMessage(this.channel._id, userMesInfo, this.chatMessage);
+      this.groupService.addMessage(this.channel._id, this.userInfo.username, this.chatMessage).subscribe(
+        res=>{
+          if(res.valid){
+            console.log("message saved");
+          }
+        }
+      );
       this.chatMessage = "";
     }else{
       console.log("No Message");
@@ -127,7 +135,8 @@ export class GroupScreen {
       res=>{
         if(res){
           this.channel = res;
-          this.messages = [];
+          console.log(this.channel.messages);
+          this.messages = this.channel.messages;
           this.joinChannel();
         }
       }

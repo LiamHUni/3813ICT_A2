@@ -16,7 +16,7 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
 //Server functions
-const { read, remove, add, update, removeMany } = require('../data/mongoFunctions.js');
+const { read, add, update, updateMany, remove, removeMany } = require('../data/mongoFunctions.js');
 
 
 const dbName = 'A2';
@@ -182,19 +182,18 @@ router.post('/getChannel', async(req, res)=>{
 
     // Get all messages from channel
     await connectMongo("messages");
-    let messages = await read(collection, {_id: chanID});
+    let messages = await read(collection, {channelID: channelID});
 
     // Add user information per message
     await connectMongo("users");
     for(m of messages){
-        const user = await read(collection, {username:m.userID});
-        m.username = user.username;
-        m.pfpImage = user.pfpImage;
+        const user = await read(collection, {username:m.userID}); 
+        m.user = {username: user[0].username, pfpImage:user[0].pfpImage};
     }
 
     channel[0].messages = messages;
 
-    // console.log(channel[0]);
+    console.log(channel[0]);
 
     // client.close();
     res.json(channel[0]);
@@ -241,15 +240,18 @@ router.post('/deleteGroup', async(req, res)=>{
 
 router.post('/addMessage', async(req, res)=>{
     const {channelID, userID, message} = req.body;
-
+    console.log("Adding Message:");
+    console.log(channelID);
+    console.log(userID);
+    console.log(message);
     const chanID = new ObjectId(channelID);
     await connectMongo("messages");
-    await update(collection, {channelID}, {$inc:{order:1}});
-    await add(collection, {channelID, userID, message});
-    await removeMany(collection, {order:{$gt:10}}); // Increase value to allow more messages to be saved
-    
+    await updateMany(collection, {channelID}, {$inc:{order:1}});
+    await add(collection, {channelID, userID, message, order:0});
+    await removeMany(collection, {order:{$gte:10}}); // Increase value to allow more messages to be saved
     
     client.close();
+    res.json({valid:true});
 });
 
 
