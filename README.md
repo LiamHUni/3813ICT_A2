@@ -1,7 +1,23 @@
+GitHub Link: https://github.com/LiamHUni/3813ICT_A2/
 # s5333819 - 3813ICTA2
 
 ## Use of git repo
-During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when working with new installs which could affect the overall project, such as with the modals being added. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
+During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when implementing new features to ensure the main branch only contained complete working versions. Each branch will be explained below. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
+
+### channel-modal-testing:
+This was part of A1 development, used when adding the modal to create channels. This branch was made as a new component had to be installed, ensuring main branch was safe from any errors this could cause.
+
+### mongodbMigration:
+The first branch for A2. Used when transfering the data storage to mongodb. This mainly focused around server side scripts, changing account.js and group.js (sub-routing scripts) to query mongodb directly instead of using json storage. For the mongodb functions, a mongoFunctions.js containing functions for read, add, remove, removeMany, update and updateMany was used.
+
+### profileImage:
+Used when adding the ability for users to upload custom profile pictures. This branch added a new profile page, accessible from the bottom left account drop down. This page contains users information (username, email and roles), with a preview of their profile picture and a button to upload an image file to set as their profile picture. These images are converted to a Base64 string that allows for them to be stored directly in the database without the need to download and reference an image path.
+
+### socketMessages:
+This branch focused on implementing server sockets. A socket.js file was added to the server to handle all socket functions (roomJoin, sendMessage, and roomLeave). On the client side a new service was added to handle all socket messages to and from the server. Saving messages to mongodb was also added in this branch, allowing for saving and retrieval of messages for future use. Image upload in messages was also added, using the same Base64 image storage method as user profiles pictures did.
+
+### cleanUp:
+This branch was used to clean up code, which included removing unneeded console.log calls, old files (all files used for JSON data storage), and unneeded code. Commenting was adding to all functions and scripts for easier understanding of the code. The README.md was also updated to reflect the changes made in A2.
 
 ## Data Structure
 Data storage has been migrated from json storage to mongodb storage. There is now six tables which data is stored in. All interactions to the mongodb server are done on the server sides subroute scripts; account.js and group.js. The data structures for each table, and the links between the table are shown below:
