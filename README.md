@@ -126,7 +126,7 @@ Return:
   }
 
 ```/leaveGroup```
-Removes group from users group array
+Deletes user group link from userGroup table
 
 Parameters:
   username: string,
@@ -145,7 +145,7 @@ Parameters:
 Return:
   Array of users
   
-```/retrieveALl```
+```/retrieveAll```
 Returns all users
 
 Parameters:
@@ -166,7 +166,7 @@ Return:
   {valid: boolean, mess: string}
 
 ```/delete```
-Deletes user from user array
+Deletes user from user table, clears all documents that reference them from database
 
 Parameters:
   username: string,
@@ -175,11 +175,21 @@ Return:
   {valid: boolean, mess: string}
 
 ```/joinGroup```
-Adds group to users group array
+Creates new user group link in userGroups table of mongodb
 
 Parameters:
   username: string,
   groupID: number
+
+Return:
+  {valid: boolean, mess: string}
+
+```/updatepfp```
+Updates users profile image in mongodb
+
+Parameters:
+  username: string,
+  image: number
 
 Return:
   {valid: boolean, mess: string}
@@ -213,7 +223,7 @@ Return:
   Group object
 
 ```/requestAccess```
-Adds user to joinRequest in group object
+Creates new document in requests table, using username and groupID
 
 Parameters:
   username: string,
@@ -224,7 +234,7 @@ Return:
 
 
 ```/getRequests```
-Get all join requests from group
+Get all join requests for group
 
 Parameters:
   groupID: number
@@ -234,7 +244,7 @@ Return:
 
   
 ```/createChannel```
-Add channel to group
+Creates new document in channel for new channel
 
 Parameters:
   groupID: number,
@@ -243,8 +253,27 @@ Parameters:
 Return:
   {valid:boolean, mess:string}
   
+```/getChannel```
+Retrieves channel information, messages, and user information for the messages
+
+Parameters:
+  channelID: string
+
+Return:
+  {
+    name: string,
+    messages: [
+      {
+        username: string,
+        pfpImage: string,
+        message: string,
+        image: string
+      }
+    ]
+  }
+  
 ```/deleteChannel```
-Deletes channel from group
+Deletes channel channels table
 
 Parameters:
   groupID: number,
@@ -254,14 +283,25 @@ Return:
   {valid:boolean, mess:string}
   
 ```/deleteGroup```
-Deletes group
+Deletes group, all channels for the group, and all messages for groups channels
 
 Parameters:
-  groupID: number,
+  groupID: number
 
 Return:
   {valid:boolean, mess:string}
 
+```/addMessage```
+Creates document in messages table, increases order of channel messages by 1, deletes all messages with an order above a set amount (max messages per channel)
+
+Parameters:
+  channelID: string,
+  userID: string,
+  message: string,
+  image: string
+
+Return:
+  {valid:boolean, mess:string}
   
 
 
