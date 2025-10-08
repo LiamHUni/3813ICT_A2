@@ -4,30 +4,66 @@
 During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when working with new installs which could affect the overall project, such as with the modals being added. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
 
 ## Data Structure
-The two main data structures were users and groups, all required information was stored in these two. The storage of these arrays were done via seperate JavaScript files in the server, and saved to JSON files as a temporary storage solution. The layout of these data structures are shown below:
+Data storage has been migrated from json storage to mongodb storage. There is now six tables which data is stored in. All interactions to the mongodb server are done on the server sides subroute scripts; account.js and group.js. The data structures for each table, and the links between the table are shown below:
 
-### Users:
+### users:
 ```
-username: string,
-email: string,
-password: string,
-roles: string[],
-groups: [
-  {
-    name: string,
-    id: number,
-    admin: boolean
-  }
-]
+username: string
+email: string
+password: string
+roles: string[]
+pfpImage: string
+```
+username is unique
+pfpImage is stored as Base64 string, an image converted to a string
+
+### groups:
+```
+id: number
+name: string
 ```
 
-### Groups:
+### userGroup:
 ```
-name: string,
-id: number,
-channels: string[],
-joinRequests: string[]
+userID: string
+groupID: number
 ```
+userID is a user's username
+groupID is a groups id
+
+### channels:
+```
+_id: ObjectID
+name: string
+groupID: number
+```
+_id is the unique idenitfier given by mongodb
+groupID is a groups id
+
+### messages:
+```
+channelID: string
+userID: string
+message: string
+image: string
+order: number
+```
+channelID is the string component of a channels _id ObjectID
+userID is a user's username
+image is stored as Base64 string, an image converted to a string
+order is used determine what messages should be kept, deleting all messages with a value over a certain number (max messages per channel)
+
+### requests:
+```
+userID: string
+groupID: number
+```
+userID is a user's username
+groupID is a groups id
+
+### Database Link Layout:
+<img width="1067" height="842" alt="database_layout" src="https://github.com/user-attachments/assets/b12637ff-36c0-4585-b3a2-16025d11c8ee" />
+
 
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
