@@ -1,33 +1,92 @@
+GitHub Link: https://github.com/LiamHUni/3813ICT_A2/
 # s5333819 - 3813ICTA2
 
 ## Use of git repo
-During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when working with new installs which could affect the overall project, such as with the modals being added. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
+During the development of this project, git and GitHub were used to create backups after every new function was added to ensure a stable version was available. Branching was used when implementing new features to ensure the main branch only contained complete working versions. Each branch will be explained below. Both the frontend (angular application) and backend (node server) were stored under the same directory, so only one git repo was required for the entire project.
+
+### channel-modal-testing:
+This was part of A1 development, used when adding the modal to create channels. This branch was made as a new component had to be installed, ensuring main branch was safe from any errors this could cause.
+
+### mongodbMigration:
+The first branch for A2. Used when transfering the data storage to mongodb. This mainly focused around server side scripts, changing account.js and group.js (sub-routing scripts) to query mongodb directly instead of using json storage. For the mongodb functions, a mongoFunctions.js containing functions for read, add, remove, removeMany, update and updateMany was used.
+
+### profileImage:
+Used when adding the ability for users to upload custom profile pictures. This branch added a new profile page, accessible from the bottom left account drop down. This page contains users information (username, email and roles), with a preview of their profile picture and a button to upload an image file to set as their profile picture. These images are converted to a Base64 string that allows for them to be stored directly in the database without the need to download and reference an image path.
+
+### socketMessages:
+This branch focused on implementing server sockets. A socket.js file was added to the server to handle all socket functions (roomJoin, sendMessage, and roomLeave). On the client side a new service was added to handle all socket messages to and from the server. Saving messages to mongodb was also added in this branch, allowing for saving and retrieval of messages for future use. Image upload in messages was also added, using the same Base64 image storage method as user profiles pictures did.
+
+### cleanUp:
+This branch was used to clean up code, which included removing unneeded console.log calls, old files (all files used for JSON data storage), and unneeded code. Commenting was adding to all functions and scripts for easier understanding of the code. The README.md was also updated to reflect the changes made in A2.
 
 ## Data Structure
-The two main data structures were users and groups, all required information was stored in these two. The storage of these arrays were done via seperate JavaScript files in the server, and saved to JSON files as a temporary storage solution. The layout of these data structures are shown below:
+Data storage has been migrated from json storage to mongodb storage. There is now six tables which data is stored in. All interactions to the mongodb server are done on the server sides subroute scripts; account.js and group.js. The data structures for each table, and the links between the table are shown below:
 
-### Users:
+### users:
 ```
-username: string,
-email: string,
-password: string,
-roles: string[],
-groups: [
-  {
-    name: string,
-    id: number,
-    admin: boolean
-  }
-]
+username: string
+email: string
+password: string
+roles: string[]
+pfpImage: string
+```
+username is unique
+
+pfpImage is stored as Base64 string, an image converted to a string
+
+### groups:
+```
+id: number
+name: string
 ```
 
-### Groups:
+### userGroup:
 ```
-name: string,
-id: number,
-channels: string[],
-joinRequests: string[]
+userID: string
+groupID: number
 ```
+userID is a user's username
+
+groupID is a groups id
+
+### channels:
+```
+_id: ObjectID
+name: string
+groupID: number
+```
+_id is the unique idenitfier given by mongodb
+
+groupID is a groups id
+
+### messages:
+```
+channelID: string
+userID: string
+message: string
+image: string
+order: number
+```
+channelID is the string component of a channels _id ObjectID
+
+userID is a user's username
+
+image is stored as Base64 string, an image converted to a string
+
+order is used determine what messages should be kept, deleting all messages with a value over a certain number (max messages per channel)
+
+### requests:
+```
+userID: string
+groupID: number
+```
+userID is a user's username
+
+groupID is a groups id
+
+### Database Link Layout:
+<img width="1067" height="842" alt="database_layout" src="https://github.com/user-attachments/assets/b12637ff-36c0-4585-b3a2-16025d11c8ee" />
+
 
 ## Routing
 All routing goes through Server.js, but is split between two sub routes ```/account/???``` and ```/group/???```
@@ -35,7 +94,7 @@ All routing goes through Server.js, but is split between two sub routes ```/acco
 ### /account/??? routes
 ```/login```
 Used to sign in user
-
+```
 Parameters:
   username: string
   password: string
@@ -47,10 +106,10 @@ Return:
     roles: [],
     groups: []
   }
-
+```
 ```/create```
 Used to create new user
-
+```
 Parameters:
   username: string,
   email: string,
@@ -58,10 +117,10 @@ Parameters:
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/retrieve```
 Used to get information on single user
-
+```
 Parameters:
   username: string
 
@@ -72,148 +131,231 @@ Return:
     roles: [],
     groups: []
   }
-
+```
 ```/leaveGroup```
-Removes group from users group array
-
+Deletes user group link from userGroup table
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/allOfGroup```
 Returns all users of a group
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Array of users
-  
-```/retrieveALl```
+```
+```/retrieveAll```
 Returns all users
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Array of users
-
+```
 ```/setRoles```
 Sets users rolls
-
+```
 Parameters:
   username: string,
   roles: []
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/delete```
-Deletes user from user array
-
+Deletes user from user table, clears all documents that reference them from database
+```
 Parameters:
   username: string,
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/joinGroup```
-Adds group to users group array
-
+Creates new user group link in userGroups table of mongodb
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid: boolean, mess: string}
+```
+```/updatepfp```
+Updates users profile image in mongodb
+```
+Parameters:
+  username: string,
+  image: number
 
+Return:
+  {valid: boolean, mess: string}
+```
 ### /group/??? routes
 ```/create```
 Creates new group
-
+```
 Parameters:
   name: string,
   user: string
-
+```
 
 ```/retrieveAll```
 Returns all groups
-
+```
 Parameters:
   username: string
 
 Return:
   Array of groups
-
+```
 ```/retreieve```
 Retrieves single group
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Group object
-
+```
 ```/requestAccess```
-Adds user to joinRequest in group object
-
+Creates new document in requests table, using username and groupID
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid:boolean, mess:string}
-
+```
 
 ```/getRequests```
-Get all join requests from group
-
+Get all join requests for group
+```
 Parameters:
   groupID: number
 
 Return:
   Array of strings
-
+```
   
 ```/createChannel```
-Add channel to group
-
+Creates new document in channel for new channel
+```
 Parameters:
   groupID: number,
   channelName: string
 
 Return:
   {valid:boolean, mess:string}
-  
+``` 
+```/getChannel```
+Retrieves channel information, messages, and user information for the messages
+```
+Parameters:
+  channelID: string
+
+Return:
+  {
+    name: string,
+    messages: [
+      {
+        username: string,
+        pfpImage: string,
+        message: string,
+        image: string
+      }
+    ]
+  }
+ ``` 
 ```/deleteChannel```
-Deletes channel from group
-
+Deletes channel from channels table
+```
 Parameters:
   groupID: number,
   channelName: string
 
 Return:
   {valid:boolean, mess:string}
-  
+ ``` 
 ```/deleteGroup```
-Deletes group
-
+Deletes group, all channels for the group, and all messages for groups channels
+```
 Parameters:
-  groupID: number,
+  groupID: number
 
 Return:
   {valid:boolean, mess:string}
+```
+```/addMessage```
+Creates document in messages table, increases order of channel messages by 1, deletes all messages with an order above a set amount (max messages per channel)
+```
+Parameters:
+  channelID: string,
+  userID: string,
+  message: string,
+  image: string
 
-  
+Return:
+  {valid:boolean, mess:string}
+```
+
+### Sockets
+```roomJoin```
+Socket message with 'roomJoin' as topic is sent once upon clicking channel, adds user to desired room using channel _id as room name. Emits '{username} has joined the chat' as 'Server' to room.
+```
+Parameters:
+  room: string
+  user: string
+
+Emit:
+  {user:{username:"Server"}, message:`${user.username} has joined the chat`}
+```
+```sendMessage```
+Main socket function, used to emit user message to all users in given room. Recieves channel _id, user info, message, and image from user's client. Uses _id to determine room to emit message to. 
+```
+Parameters:
+  room: string
+  user: object
+  message: string
+  image: string
+
+Emit:
+  {user, message, image}
+```
+```roomLeave```
+Socket message with 'roomLeave' as topic is sent once upon leaving channel, removes user from given room using channel _id as room name. Emits '{username} has left the chat' as 'Server' to room.
+```
+Parameters:
+  room: string
+  user: string
+
+Emit:
+  {user:{username:"Server"}, message:`${user.username} has left the chat`}
+```
+
+### Angular Architecture
+The front end is made of two main component groups/routes, 'login' and 'main-screen'. The 'login' component is only the log in page, all other routes render as sub-routes of 'main-screen'. Out of the seven components in the components folder, five are proper sub-routes of 'main-screen'; 'create-group', 'create-user', 'group-browser', 'group-screen', and 'profile'. 'channel-modal' is a model only displayed on 'group-screen' when creating a new channel. 'user-manager' is a child that can appear through either 'main-screen' when accessing it from the account drop down to manage all users, or through 'group-screen' when managing the users of a group.
 
 
-### /group/??? routes
+There are two guards used to prevent unauthorised access in this project. 'signed-in-guard' prevents a signed in user from accessing the 'login' page. 'signed-out-guard' prevents a user not signed in from accessing 'main-screen' and all it's sub-routes, this is why majoirty of the components are sub-routes.
+
+
+There are three services used in this project. 'account-service' handles all '/account/???' routes that communicate to 'account.js' in the server. Components that use 'account-service' are primarily; 'login', 'create-user', 'profile' and 'user-manager'. 'group-service' handles all '/group/???' routes that communicate to 'group.js' in the server. Components that use 'group-service' are primarily; 'create-group', 'group-browser' and 'group-screen'. Although these are the main components that use 'account-service' and 'group-serivce', most components do require using both services to recieve required information. The third service is 'socket', this service handles all socket related emit's and receiving. It communicates through the server to 'socket.js'. There are three functions the 'socket' service uses; joinChannel, sendMessage, and leaveChannel. These functions are described above.
+
+
+The server for this project has a main entry point of 'server.js'. All REST API calls are then split into two sub-routing files, '/account/???' routes are directed to 'account.js', while all '/group/???' routes are directed to 'group.js'. 'server.js' also triggers a function in 'socket.js' that initialises all socket functionality. Other than initial server setup, no logic is done inside 'server.js'.
 
 ## File Layout
 ```
@@ -225,10 +367,7 @@ Return:
 |  | ├─ group.js  #Handles all routes related to groups
 |  |
 |  ├─ data/
-|    ├─ group.js  #Handles logic for saving to temporary group json
-|    ├─ group.json  #Temporary file storage for groups
-|    ├─ user.js  #Handles logic for saving to temporary user json
-|    ├─ user.json  #Temporary file storage for users
+|    ├─ mongoFunctions.js  #Contains all functions used to interact with mongodb (read, add, update, updateMany, remove, removeMany)
 |
 ├─ src/
    ├─ app/
@@ -242,6 +381,7 @@ Return:
    |     ├─ create-user/  #Subpage of main page - form for creating users
    |     ├─ group-browser/  #Subpage of main page - displays list of groups
    |     ├─ group-screen/  #Subpage of main page - handles inside of groups, selectable channels, etc
+   |     ├─ profile/  #Subpage of main page - displays user info, allows for changing of profile picture and deleting account
    |     ├─ user-manager/  #Subpage of main page or group screen - allows for accepting requests, kicking and deleting users
    |
    ├─ assets/ #Stores local assets
@@ -252,4 +392,5 @@ Return:
    ├─ services/
       ├─ account-service.ts #Handles communicating to account.js in Server
       ├─ group-service.ts #Handles communicating to group.js in Server
+      ├─ socket.ts #Handles communicating to socket.js in Server
 ```

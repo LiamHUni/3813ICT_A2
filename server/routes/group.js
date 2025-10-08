@@ -29,6 +29,7 @@ async function connectMongo(base){
     collection = db.collection(base);
 }
 
+// Empty group data frame
 class Group {
     constructor(name, id){
         this.name = name;
@@ -36,20 +37,17 @@ class Group {
     }
 }
 
-//Allows use of group info in data folder
-const {groups, updateGroupJSON} = require('../data/group.js');
-
-const {users, updateUserJSON} = require('../data/user.js');
-
 router.post('/create', async(req, res)=>{
     const {name, user} = req.body;
 
+    // Connects to groups table in mongodb, retrieves all groups
     await connectMongo("groups");
     let groups = await read(collection, {});
 
+    // Check if any groups also use the same name
     const nameMatch = groups.find(g => g.name === name);
 
-    //Returns error messages if name is already used
+    // Returns error messages if name is already used
     if(nameMatch){
         console.log("Group name already used");
         res.json({valid: false, mess:"Group name already used"})
@@ -86,7 +84,6 @@ router.post('/retrieveAll', async(req, res)=>{
     await connectMongo("userGroup");
     const userGroups = await read(collection, {userID: username});
     const userGroupID = userGroups.map(g => g.groupID);
-    // console.log(userGroupID);
 
     //Retrieve all groups
     await connectMongo("groups");
@@ -121,21 +118,26 @@ router.post('/retrieveAll', async(req, res)=>{
 router.post('/retrieve', async(req, res)=>{
     const {id} = req.body;
 
+    // Connects to groups table in mongodb
     await connectMongo("groups");
+    // Retrieve desired group using id
     const group = await read(collection, {id: id});
 
+    // Connect to channels table in mongodb
     await connectMongo("channels");
+    // Get all channels that have given id as groupID
     const channels = await read(collection, {groupID: id});
     group[0].channels = channels;
-    // console.log(group[0]);
+
     res.json(group[0]);
-    // client.close();
 });
 
 router.post('/requestAccess', async(req, res)=>{
     const {username, groupID} = req.body;
 
+    // Connects to requests table in mongodb
     await connectMongo("requests");
+    // Add document with user's username and groupID
     await add(collection, {userID: username, groupID});
 
     res.json({valid:true, mess:""});
@@ -148,11 +150,13 @@ router.post('/getRequests', async(req, res)=>{
     // Gets requests for current group
     await connectMongo("requests");
     let requests = await read(collection, {groupID});
+    // Gets just the users ID from requests
     requests = requests.map(r=>r.userID);
 
     // Get usernames for requests
     await connectMongo("users");
     let users = await read(collection, {username: {$in: requests}})
+    // Get just users usernames from data
     users = users.map(u=>u.username);
 
     res.json(users);
@@ -163,9 +167,10 @@ router.post('/getRequests', async(req, res)=>{
 router.post('/createChannel', async(req, res)=>{
     const {groupID, channelName} = req.body;
 
+    // Connects to channels table in mongodb
     await connectMongo("channels");
+    // Add new document using groupID and new channel name
     await add(collection, {groupID, name:channelName});
-    // console.log(channelName);
 
     client.close();
     res.json({valid:true, mess:""});
@@ -186,6 +191,7 @@ router.post('/getChannel', async(req, res)=>{
 
     // Add user information per message
     await connectMongo("users");
+    // Loop through all messages, add users username and proflie picture to each message 
     for(m of messages){
         const user = await read(collection, {username:m.userID}); 
         m.user = {username: user[0].username, pfpImage:user[0].pfpImage};
@@ -193,17 +199,16 @@ router.post('/getChannel', async(req, res)=>{
 
     channel[0].messages = messages;
 
-    // console.log(channel[0]);
-
-    // client.close();
     res.json(channel[0]);
 });
 
-//Delete channel from group
+// Delete channel from group
 router.post('/deleteChannel', async(req, res)=>{
-    const {groupID, channelName} = req.body;
-    // console.log(channelName);
+    const {channelName} = req.body;
+
+    // Connect to channels table in mongodb
     await connectMongo("channels");
+    // Remove document with given _id
     await remove(collection, {_id: new ObjectId(channelName)});
 
     client.close();
@@ -221,9 +226,10 @@ router.post('/deleteGroup', async(req, res)=>{
     // Get group channels
     await connectMongo("channels");
     let channels = await read(collection, {groupID});
+    // Get just channel _id
     channels = channels.map(c => c._id);
     
-    // Delete channels
+    // Delete channels with given _id
     await removeMany(collection, {groupID});
     
     // Delete all messages from channels
@@ -241,10 +247,14 @@ router.post('/deleteGroup', async(req, res)=>{
 router.post('/addMessage', async(req, res)=>{
     const {channelID, userID, message, image} = req.body;
 
-    const chanID = new ObjectId(channelID);
+    // Connect to messages table in mongodb
     await connectMongo("messages");
+    // Increase the order of all messages by one
     await updateMany(collection, {channelID}, {$inc:{order:1}});
+    // Add new message with channelID, userID, message, image, and order of 0
     await add(collection, {channelID, userID, message, image, order:0});
+    // Remove all messages with order value equal or greater than 10
+    // allows for keeping only 10 messages per channel
     await removeMany(collection, {order:{$gte:10}}); // Increase value to allow more messages to be saved
     
     client.close();

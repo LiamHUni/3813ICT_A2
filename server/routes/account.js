@@ -21,18 +21,14 @@ const { read, remove, add, update, removeMany } = require('../data/mongoFunction
 const dbName = 'A2';
 let collection;
 
+// Function to connect to mongodb 
 async function connectMongo(base){
     await client.connect();
-    // console.log('Connected');
     const db = client.db(dbName);
     collection = db.collection(base);
 }
 
-//Allows use of user info in data folder
-// const {users, updateUserJSON} = require('../data/user.js');
-
-// const{groups, updateGroupJSON} = require('../data/group.js');
-
+// New user data format
 class User {
     constructor(username, email, password, roles=["user"]){
         this.username = username;
@@ -70,19 +66,22 @@ router.post('/login', async(req, res) =>{
             }
             //Sets user group to be all groups
             user.groups = allGroups;
+
         }else{
+            // Finds all user group links
             await connectMongo("userGroup");
             const groupIDs = await read(collection, {userID: username});
 
+            // Gets group information for groups user is part of
             await connectMongo("groups");
             const groups = await read(collection, {id: { $in: groupIDs.map(groupID => groupID.groupID)}});
-            console.log(groups);
 
             let userGroups =[]
+            // Loops through groups, adding only required information
             for(const g of groups){
                 userGroups.push({name:g.name, id:g.id, admin:true});
             }
-            //Sets user group to be all groups
+            
             user.groups = userGroups;
         }
 
@@ -103,6 +102,7 @@ router.post('/login', async(req, res) =>{
 router.post('/create', async(req, res)=>{
     const {username, email, password} = req.body;
 
+    // Get all users with matching usernames and emails
     await connectMongo("users")
     const usernameMatch = await read(collection, {username});
     const emailMatch = await read(collection, {email});
@@ -144,28 +144,34 @@ router.post('/retrieve', async(req, res)=>{
     result = await read(collection, query);
     const user = result[0]
 
-    //Checks if user is super admin, if so, gives all groups as their group list
+    // Checks if user is super admin, if so, gives all groups as their group list
     if(user.roles.includes("superAdmin")){
         
+        // Gets all groups from database
         await connectMongo("groups");
         const groups = await read(collection, {});
         client.close();
         
         let allGroups = [];
-        //Loops through all groups, gets their name and id
+        // Loops through all groups, gets their name and id
         for(const g of groups){
             allGroups.push({name:g.name, id:g.id, admin:true});
         }
-        //Sets user group to be all groups
+        // Sets user group to be all groups
         user.groups = allGroups;
+
+
     }else{
+        // Finds all user group links
         await connectMongo("userGroup");
         const groupIDs = await read(collection, {userID: username});
 
+        // Gets group information for groups user is part of
         await connectMongo("groups");
         const groups = await read(collection, {id: { $in: groupIDs.map(groupID => groupID.groupID)}});
 
         let userGroups =[]
+        // Loops through groups, adding only required information
         for(const g of groups){
             userGroups.push({name:g.name, id:g.id, admin:true});
         }
@@ -173,7 +179,7 @@ router.post('/retrieve', async(req, res)=>{
         user.groups = userGroups;
     }
 
-        //Seperates password and rest of user info
+    //Seperates password and rest of user info
     const {password, ...userInfo} = user;
     //Adds valid attribute to info
     userInfo.valid = true;
@@ -182,10 +188,13 @@ router.post('/retrieve', async(req, res)=>{
     client.close();
 });
 
+
 router.post('/leaveGroup', async(req, res)=>{
     const {username, groupID} = req.body;
+    // Create query to get only required user group link
     query = {userID: username, groupID};
 
+    // Connects to userGroup table in mongodb, then removes user group link
     await connectMongo("userGroup");
     await remove(collection, query);
 
@@ -210,6 +219,7 @@ router.post('/allOfGroup', async(req, res)=>{
     await connectMongo("users")
     let groupUsers = await read(collection, {username: { $in: userIDs}})
 
+    // Keep only the users username and roles
     let usersOfGroup = groupUsers.filter(u=>({username: u.username, roles:u.roles}));
 
     client.close();
@@ -219,9 +229,12 @@ router.post('/allOfGroup', async(req, res)=>{
 router.post('/retrieveAll', async(req, res)=>{
     const {username} = req.body;
 
+    // Creates query to get all users except (ne) current user
     query = {username: {$ne : username}};
 
+    // Connect to mongodb users table
     await connectMongo("users");
+    // Retreive all users with query above
     let users = await read(collection, query);
 
     //Gets username and roles of all users, skipping current user
@@ -256,6 +269,10 @@ router.post('/delete', async(req, res)=>{
     // Remove all join requests from user
     await connectMongo("requests");
     await removeMany(collection, {userID: username});
+    
+    // Remove all messages made from user
+    await connectMongo("messages");
+    await removeMany(collection, {userID: username});
 
     client.close();
     res.json({valid:true, mess:""});
@@ -283,13 +300,13 @@ router.post('/joinGroup', async(req, res)=>{
 router.post('/updatepfp', async(req, res)=>{
     const {username, image} = req.body;
     
+    // Connects to users table in mongodb
     await connectMongo("users");
+    // Updates user's document to set their pfp with selected image Base64 value
     await update(collection, {username}, {$set:{pfpImage:image}});
     
     client.close();
     res.json({valid:true, mess:""});
 });
-
-
 
 module.exports = router;

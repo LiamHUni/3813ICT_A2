@@ -24,11 +24,9 @@
             <input [(ngModel)]="conPassword" type="password" name="conPassword" id="conPassword" class="form-control" />
         </div>
         
+        <!-- Error and Success Messages -->
         <p class="error">{{errorMessage}}</p>
         <p class="success">{{successMessage}}</p>
-
-        <!-- Sign in error message, 'Incorrect username or password' -->
-        <!-- <p class="error">{{errorMessage}}</p> -->
         
         <!-- Submit button -->
         <button (click)="submit()" type="submit" class="btn btn-primary">Create</button>

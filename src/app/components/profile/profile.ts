@@ -23,7 +23,6 @@ export class Profile {
     this.accountService.changes$.subscribe(({})=>{
       this.updateUserInfo();
     });
-    console.log(this.userInfo);
     this.profileImage = this.userInfo.pfpImage;
   }
   
@@ -42,10 +41,14 @@ export class Profile {
     const file = input.files[0];
     const reader = new FileReader();
 
+    // When image is converted to Base64 and loaded
     reader.onload = () => {
+      // Updates profile image value to display preview
       this.profileImage = reader.result as string;
+      // Sends update request to server through account service
       this.accountService.updateProfileImage(this.userInfo.username, this.profileImage).subscribe(
         res=>{
+          // Upon successful profile update, requests user info retrieval through account service
           if(res.valid){
             this.accountService.updateUserInfo(this.userInfo.username);
           }
@@ -60,10 +63,14 @@ export class Profile {
     reader.readAsDataURL(file); // Converts to Base64
   }
 
+  // Account deletion function
   deleteSelf(){
+    // Displays confirmation form to prevent accidental deletion
     if(confirm("Are you sure you want to delete your account?\nThis can not be undone")){
+      // Requests account deletion to server through account service
       this.accountService.deleteUser(this.userInfo.username).subscribe(
         res=>{
+          // Once server has deleted account, sign user out
           if(res.valid){
             this.logout();
           }
@@ -72,7 +79,8 @@ export class Profile {
     }
   }
 
-    logout(){
+  // Log out function
+  logout(){
     //Removes user information from local storage
     localStorage.removeItem("userInfo");
     localStorage.removeItem("currentGroup");

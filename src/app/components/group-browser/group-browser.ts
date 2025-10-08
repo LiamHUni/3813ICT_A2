@@ -18,12 +18,13 @@ export class GroupBrowser {
     this.updateUserInfo();
     this.retrieveAll();
 
-    //Subscribes to observable, triggers when local storage 'userInfo' is updated
+    // Subscribes to observable, triggers when local storage 'userInfo' is updated
     this.accountService.changes$.subscribe(({})=>{
       this.updateUserInfo();
     });
   }
   
+  // Retrieves user data from local storage
   updateUserInfo(){    
     const data = localStorage.getItem("userInfo");
     if(data){
@@ -31,6 +32,7 @@ export class GroupBrowser {
     }
   }
 
+  // Requests all group data from server through group service
   retrieveAll(){
     this.groupService.getAllGroups(this.userInfo.username).subscribe(
       res=>{
@@ -39,6 +41,7 @@ export class GroupBrowser {
     )
   }
 
+  // Sends join request to server through group service
   requestJoin(groupID: number){
     this.groupService.requestAccess(this.userInfo.username, groupID).subscribe(
       res=>{

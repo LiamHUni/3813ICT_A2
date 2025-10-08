@@ -73,11 +73,6 @@ export class AccountService {
     return this.http.post<genResults>(this.url+"joinGroup", {username, groupID, allow});
   }
 
-  //STILL NOT USED
-  //
-  //
-  //
-  //
   setRoles(username: string, roles:[]){
     return this.http.post<genResults>(this.url+"setRoles", {username, roles});
   }

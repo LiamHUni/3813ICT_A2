@@ -69,10 +69,16 @@
                             @for(message of messages; track message){
                             <div class="messRow">
                                 <div>
+                                    <!-- Checks if message is from server, if not, displays profile picture -->
                                     @if(message.user.username != "Server"){
-                                        <img src={{message.user.pfpImage}} alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        @if(message.user.pfpImage){
+                                            <img src={{message.user.pfpImage}} alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        }@else{
+                                            <img src="./assets/images/UniLogo.png" alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        }
                                     }
                                 </div>
+                                <!-- Username and message section -->
                                 <div>
                                     <div style="font-weight: bold;">
                                         {{message.user.username}}:
@@ -82,6 +88,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Displays image if included in message -->
                             @if(message.image){
                                 <img src={{message.image}} alt="" class="messImage"> 
                             }
@@ -92,19 +99,25 @@
 
                     <!-- Message input form -->
                     <div style="background-color: rgba(45,48,52,255); padding: 5px; border-radius: 5px;">
+                        <!-- Image input button -->
                         <input type="file" (change)="onFileSelected($event)" />
                         <br>
+                        <!-- Displays image upon selection -->
                         <div *ngIf="chatImage">
                             <img [src]="chatImage" width="200" height="200" class="messImage"/>
                         </div>
+                        <!-- If an image is selected, display remove image button -->
                         @if(chatImage){
                             <button (click)="removeImage()" class="btn"><i class="btn btn-warning">Remove Image</i></button>
                         }
+                        <!-- Message input form -->
                         <form>
                             <div class="input-group">
+                                <!-- Message input -->
                                 <div class="form-group col-md-11">
                                     <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
                                 </div>
+                                <!-- Send message -->
                                 <div class="messageSend input-group-btn">
                                     <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
                                 </div>
@@ -115,7 +128,6 @@
             }
         }@else{
             <app-user-manager [groupID]="groupInfo.id" [username]="userInfo.username"></app-user-manager>
-            <!-- <app-user-manager [username]="userInfo.username"></app-user-manager> -->
         }
     </div>
 </div>
