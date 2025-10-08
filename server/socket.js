@@ -8,8 +8,8 @@ module.exports = {
                 io.to(room).emit('message', {user:{username:"Server"}, message:`${user.username} has joined the chat`});
             });
 
-            socket.on('sendMessage', ({room, user, message}) => {
-                io.to(room).emit('message', {user, message});
+            socket.on('sendMessage', ({room, user, message, image}) => {
+                io.to(room).emit('message', {user, message, image});
             });
 
             // Custom disconnect function, allows for leaving message to be sent

@@ -253,6 +253,10 @@ router.post('/delete', async(req, res)=>{
     await connectMongo("userGroup");
     await removeMany(collection, {userID: username});
 
+    // Remove all join requests from user
+    await connectMongo("requests");
+    await removeMany(collection, {userID: username});
+
     client.close();
     res.json({valid:true, mess:""});
 });

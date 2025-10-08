@@ -23,8 +23,8 @@ export class SocketService {
     this.socket.emit('roomJoin', {room, user});
   }
 
-  sendMessage(room:any, user:any, message:any){
-    this.socket.emit('sendMessage', {room, user, message});
+  sendMessage(room:any, user:any, message:any, image:string){
+    this.socket.emit('sendMessage', {room, user, message, image});
   }
 
   leaveChannel(room:any, user:any){

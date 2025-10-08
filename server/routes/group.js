@@ -193,7 +193,7 @@ router.post('/getChannel', async(req, res)=>{
 
     channel[0].messages = messages;
 
-    console.log(channel[0]);
+    // console.log(channel[0]);
 
     // client.close();
     res.json(channel[0]);
@@ -239,15 +239,12 @@ router.post('/deleteGroup', async(req, res)=>{
 });
 
 router.post('/addMessage', async(req, res)=>{
-    const {channelID, userID, message} = req.body;
-    console.log("Adding Message:");
-    console.log(channelID);
-    console.log(userID);
-    console.log(message);
+    const {channelID, userID, message, image} = req.body;
+
     const chanID = new ObjectId(channelID);
     await connectMongo("messages");
     await updateMany(collection, {channelID}, {$inc:{order:1}});
-    await add(collection, {channelID, userID, message, order:0});
+    await add(collection, {channelID, userID, message, image, order:0});
     await removeMany(collection, {order:{$gte:10}}); // Increase value to allow more messages to be saved
     
     client.close();

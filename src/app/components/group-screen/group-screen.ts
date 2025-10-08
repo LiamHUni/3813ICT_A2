@@ -6,10 +6,11 @@ import { AccountService } from '../../../services/account-service';
 import { UserManager } from '../user-manager/user-manager';
 import { Router } from '@angular/router';
 import { SocketService } from '../../../services/socket';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-group-screen',
-  imports: [FormsModule, ChannelModal, UserManager],
+  imports: [FormsModule, CommonModule,ChannelModal, UserManager],
   templateUrl: './group-screen.html',
   styleUrl: './group-screen.css'
 })
@@ -25,8 +26,8 @@ export class GroupScreen {
 
   viewingChat: boolean = true;
 
-  //Won't be used for part 1
   chatMessage: string = "";
+  chatImage: string = "";
 
   modal: any;
 
@@ -104,8 +105,8 @@ export class GroupScreen {
   submit(){
     const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
     if(this.chatMessage){
-      this.socketService.sendMessage(this.channel._id, userMesInfo, this.chatMessage);
-      this.groupService.addMessage(this.channel._id, this.userInfo.username, this.chatMessage).subscribe(
+      this.socketService.sendMessage(this.channel._id, userMesInfo, this.chatMessage, this.chatImage);
+      this.groupService.addMessage(this.channel._id, this.userInfo.username, this.chatMessage, this.chatImage).subscribe(
         res=>{
           if(res.valid){
             console.log("message saved");
@@ -113,6 +114,7 @@ export class GroupScreen {
         }
       );
       this.chatMessage = "";
+      this.chatImage = "";
     }else{
       console.log("No Message");
     }
@@ -122,7 +124,32 @@ export class GroupScreen {
     const userMesInfo = {username: this.userInfo.username, pfpImage: this.userInfo.pfpImage};
     this.socketService.leaveChannel(room, userMesInfo);
   }
+
+  /*
+  * Image fuctions
+  */
   
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.chatImage = reader.result as string;
+    };
+
+    reader.onerror = error => {
+      console.error('Error reading file:', error);
+    };
+
+    reader.readAsDataURL(file); // Converts to Base64
+  }
+
+  removeImage(){
+    this.chatImage = "";
+  }
 
   /*
   * Channel Management

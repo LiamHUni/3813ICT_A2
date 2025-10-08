@@ -82,22 +82,35 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(message.image){
+                                <img src={{message.image}} alt="" class="messImage"> 
+                            }
                             <hr>
                             }
                         </ul>
                     </div>
 
                     <!-- Message input form -->
-                    <form >
-                        <div class="input-group">
-                            <div class="form-group col-md-11">
-                                <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
-                            </div>
-                            <div class="messageSend input-group-btn">
-                                <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
-                            </div>
+                    <div style="background-color: rgba(45,48,52,255); padding: 5px; border-radius: 5px;">
+                        <input type="file" (change)="onFileSelected($event)" />
+                        <br>
+                        <div *ngIf="chatImage">
+                            <img [src]="chatImage" width="200" height="200" class="messImage"/>
                         </div>
-                    </form>
+                        @if(chatImage){
+                            <button (click)="removeImage()" class="btn"><i class="btn btn-warning">Remove Image</i></button>
+                        }
+                        <form>
+                            <div class="input-group">
+                                <div class="form-group col-md-11">
+                                    <input [(ngModel)]="chatMessage" type="text" name="chatMessage" id="chatMessage" class="form-control"/>
+                                </div>
+                                <div class="messageSend input-group-btn">
+                                    <button (click)="submit()" type="submit" class="btn"><i class="bi bi-send"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             }
         }@else{
