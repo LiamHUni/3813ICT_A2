@@ -89,7 +89,7 @@ export class GroupScreen {
     const userInfoTemp = localStorage.getItem('userInfo');
     this.userInfo = userInfoTemp ? JSON.parse(userInfoTemp): null;
     //Finds group in user group array, checks admin value
-    this.userAdmin = this.userInfo.roles.includes("superAdmin", "groupAdmin");
+    this.userAdmin = this.userInfo.roles.includes("superAdmin") || this.userInfo.roles.includes("groupAdmin");
   }
 
   /*
