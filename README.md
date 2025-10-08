@@ -348,10 +348,7 @@ Emit:
 |  | ├─ group.js  #Handles all routes related to groups
 |  |
 |  ├─ data/
-|    ├─ group.js  #Handles logic for saving to temporary group json
-|    ├─ group.json  #Temporary file storage for groups
-|    ├─ user.js  #Handles logic for saving to temporary user json
-|    ├─ user.json  #Temporary file storage for users
+|    ├─ mongoFunctions.js  #Contains all functions used to interact with mongodb (read, add, update, updateMany, remove, removeMany)
 |
 ├─ src/
    ├─ app/
@@ -365,6 +362,7 @@ Emit:
    |     ├─ create-user/  #Subpage of main page - form for creating users
    |     ├─ group-browser/  #Subpage of main page - displays list of groups
    |     ├─ group-screen/  #Subpage of main page - handles inside of groups, selectable channels, etc
+   |     ├─ profile/  #Subpage of main page - displays user info, allows for changing of profile picture and deleting account
    |     ├─ user-manager/  #Subpage of main page or group screen - allows for accepting requests, kicking and deleting users
    |
    ├─ assets/ #Stores local assets
@@ -375,4 +373,5 @@ Emit:
    ├─ services/
       ├─ account-service.ts #Handles communicating to account.js in Server
       ├─ group-service.ts #Handles communicating to group.js in Server
+      ├─ socket.ts #Handles communicating to socket.js in Server
 ```
