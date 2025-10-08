@@ -304,8 +304,39 @@ Return:
   {valid:boolean, mess:string}
   
 
+### Sockets
+```roomJoin```
+Socket message with 'roomJoin' as topic is sent once upon clicking channel, adds user to desired room using channel _id as room name. Emits '{username} has joined the chat' as 'Server' to room.
 
-### /group/??? routes
+Parameters:
+  room: string
+  user: string
+
+Emit:
+  {user:{username:"Server"}, message:`${user.username} has joined the chat`}
+
+```sendMessage```
+Main socket function, used to emit user message to all users in given room. Recieves channel _id, user info, message, and image from user's client. Uses _id to determine room to emit message to. 
+
+Parameters:
+  room: string
+  user: object
+  message: string
+  image: string
+
+Emit:
+  {user, message, image}
+
+```roomLeave```
+Socket message with 'roomLeave' as topic is sent once upon leaving channel, removes user from given room using channel _id as room name. Emits '{username} has left the chat' as 'Server' to room.
+
+Parameters:
+  room: string
+  user: string
+
+Emit:
+  {user:{username:"Server"}, message:`${user.username} has left the chat`}
+  
 
 ## File Layout
 ```
