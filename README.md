@@ -338,6 +338,18 @@ Emit:
   {user:{username:"Server"}, message:`${user.username} has left the chat`}
 ```
 
+### Angular Architecture
+The front end is made of two main component groups/routes, 'login' and 'main-screen'. The 'login' component is only the log in page, all other routes render as sub-routes of 'main-screen'. Out of the seven components in the components folder, five are proper sub-routes of 'main-screen'; 'create-group', 'create-user', 'group-browser', 'group-screen', and 'profile'. 'channel-modal' is a model only displayed on 'group-screen' when creating a new channel. 'user-manager' is a child that can appear through either 'main-screen' when accessing it from the account drop down to manage all users, or through 'group-screen' when managing the users of a group.
+
+
+There are two guards used to prevent unauthorised access in this project. 'signed-in-guard' prevents a signed in user from accessing the 'login' pages. 'signed-out-guard' prevents a user not signed in from accessing 'main-screen' and all it's sub-routes, this is why majoirty of the components are sub-routes.
+
+
+There are three services used in this project. 'account-service' handles all '/account/???' routes that communicate to 'account.js' in the server. Components that use 'account-service' are primarily; 'login', 'create-user', 'profile' and 'user-manager'. 'group-service' handles all '/group/???' routes that communicate to 'group.js' in the server. Components that use 'group-service' are primarily; 'create-group', 'group-browser' and 'group-screen'. Although these are the main components that use 'account-service' and 'group-serivce', most components do require using both services to recieve required information. The third service is 'socket', this service handles all socket related emit's and receiving. It communicates through the server to 'socket.js'. There are three functions the 'socket' service uses; joinChannel, sendMessage, and leaveChannel. These functions are described above.
+
+
+The server for this project has a main entry point of 'server.js'. All REST API calls are then split into two sub-routing files, '/account/???' routes are directed to 'account.js', while all '/group/???' routes are directed to 'group.js'. 'server.js' also triggers a function in 'socket.js' that initalises all socket functionality. Other than initial server setup, no logic is done inside 'server.js'.
+
 ## File Layout
 ```
 /
