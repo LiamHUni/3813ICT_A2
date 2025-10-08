@@ -87,7 +87,7 @@ All routing goes through Server.js, but is split between two sub routes ```/acco
 ### /account/??? routes
 ```/login```
 Used to sign in user
-
+```
 Parameters:
   username: string
   password: string
@@ -99,10 +99,10 @@ Return:
     roles: [],
     groups: []
   }
-
+```
 ```/create```
 Used to create new user
-
+```
 Parameters:
   username: string,
   email: string,
@@ -110,10 +110,10 @@ Parameters:
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/retrieve```
 Used to get information on single user
-
+```
 Parameters:
   username: string
 
@@ -124,138 +124,138 @@ Return:
     roles: [],
     groups: []
   }
-
+```
 ```/leaveGroup```
 Deletes user group link from userGroup table
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/allOfGroup```
 Returns all users of a group
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Array of users
-  
+```
 ```/retrieveAll```
 Returns all users
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Array of users
-
+```
 ```/setRoles```
 Sets users rolls
-
+```
 Parameters:
   username: string,
   roles: []
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/delete```
 Deletes user from user table, clears all documents that reference them from database
-
+```
 Parameters:
   username: string,
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/joinGroup```
 Creates new user group link in userGroups table of mongodb
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ```/updatepfp```
 Updates users profile image in mongodb
-
+```
 Parameters:
   username: string,
   image: number
 
 Return:
   {valid: boolean, mess: string}
-
+```
 ### /group/??? routes
 ```/create```
 Creates new group
-
+```
 Parameters:
   name: string,
   user: string
-
+```
 
 ```/retrieveAll```
 Returns all groups
-
+```
 Parameters:
   username: string
 
 Return:
   Array of groups
-
+```
 ```/retreieve```
 Retrieves single group
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   Group object
-
+```
 ```/requestAccess```
 Creates new document in requests table, using username and groupID
-
+```
 Parameters:
   username: string,
   groupID: number
 
 Return:
   {valid:boolean, mess:string}
-
+```
 
 ```/getRequests```
 Get all join requests for group
-
+```
 Parameters:
   groupID: number
 
 Return:
   Array of strings
-
+```
   
 ```/createChannel```
 Creates new document in channel for new channel
-
+```
 Parameters:
   groupID: number,
   channelName: string
 
 Return:
   {valid:boolean, mess:string}
-  
+``` 
 ```/getChannel```
 Retrieves channel information, messages, and user information for the messages
-
+```
 Parameters:
   channelID: string
 
@@ -271,29 +271,29 @@ Return:
       }
     ]
   }
-  
+ ``` 
 ```/deleteChannel```
 Deletes channel channels table
-
+```
 Parameters:
   groupID: number,
   channelName: string
 
 Return:
   {valid:boolean, mess:string}
-  
+ ``` 
 ```/deleteGroup```
 Deletes group, all channels for the group, and all messages for groups channels
-
+```
 Parameters:
   groupID: number
 
 Return:
   {valid:boolean, mess:string}
-
+```
 ```/addMessage```
 Creates document in messages table, increases order of channel messages by 1, deletes all messages with an order above a set amount (max messages per channel)
-
+```
 Parameters:
   channelID: string,
   userID: string,
@@ -302,22 +302,22 @@ Parameters:
 
 Return:
   {valid:boolean, mess:string}
-  
+```
 
 ### Sockets
 ```roomJoin```
 Socket message with 'roomJoin' as topic is sent once upon clicking channel, adds user to desired room using channel _id as room name. Emits '{username} has joined the chat' as 'Server' to room.
-
+```
 Parameters:
   room: string
   user: string
 
 Emit:
   {user:{username:"Server"}, message:`${user.username} has joined the chat`}
-
+```
 ```sendMessage```
 Main socket function, used to emit user message to all users in given room. Recieves channel _id, user info, message, and image from user's client. Uses _id to determine room to emit message to. 
-
+```
 Parameters:
   room: string
   user: object
@@ -326,17 +326,17 @@ Parameters:
 
 Emit:
   {user, message, image}
-
+```
 ```roomLeave```
 Socket message with 'roomLeave' as topic is sent once upon leaving channel, removes user from given room using channel _id as room name. Emits '{username} has left the chat' as 'Server' to room.
-
+```
 Parameters:
   room: string
   user: string
 
 Emit:
   {user:{username:"Server"}, message:`${user.username} has left the chat`}
-  
+```
 
 ## File Layout
 ```
