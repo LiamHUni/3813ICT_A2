@@ -71,7 +71,11 @@
                                 <div>
                                     <!-- Checks if message is from server, if not, displays profile picture -->
                                     @if(message.user.username != "Server"){
-                                        <img src={{message.user.pfpImage}} alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        @if(message.user.pfpImage){
+                                            <img src={{message.user.pfpImage}} alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        }@else{
+                                            <img src="./assets/images/UniLogo.png" alt="" width="40" height="40" class="rounded-circle me-2"> 
+                                        }
                                     }
                                 </div>
                                 <!-- Username and message section -->

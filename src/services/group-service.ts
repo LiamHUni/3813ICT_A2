@@ -69,7 +69,6 @@ export class GroupService {
   }
   
   addMessage(channelID: string, userID: string, message: string, image:string){
-    console.log(message);
     return this.http.post<genResults>(this.url+"addMessage", {channelID, userID, message, image});
   }
 }

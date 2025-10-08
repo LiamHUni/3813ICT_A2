@@ -36,7 +36,6 @@ export class MainScreen {
     if(data){
       this.userInfo = JSON.parse(data);
     }
-    console.log(this.userInfo);
   }
 
   logout(){
