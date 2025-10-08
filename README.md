@@ -31,6 +31,7 @@ roles: string[]
 pfpImage: string
 ```
 username is unique
+
 pfpImage is stored as Base64 string, an image converted to a string
 
 ### groups:
@@ -45,6 +46,7 @@ userID: string
 groupID: number
 ```
 userID is a user's username
+
 groupID is a groups id
 
 ### channels:
@@ -54,6 +56,7 @@ name: string
 groupID: number
 ```
 _id is the unique idenitfier given by mongodb
+
 groupID is a groups id
 
 ### messages:
@@ -65,8 +68,11 @@ image: string
 order: number
 ```
 channelID is the string component of a channels _id ObjectID
+
 userID is a user's username
+
 image is stored as Base64 string, an image converted to a string
+
 order is used determine what messages should be kept, deleting all messages with a value over a certain number (max messages per channel)
 
 ### requests:
