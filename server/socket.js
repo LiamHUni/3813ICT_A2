@@ -16,7 +16,13 @@ module.exports = {
 
             // Custom disconnect function, allows for leaving message to be sent
             socket.on('roomLeave', ({room, user})=>{
-                socket.leave(room);
+                // Loops through and leaves all rooms client is part of, ensures user isn't accidently left in old room
+                for(const room of socket.rooms){
+                    if(room != socket.id){
+                        socket.leave(room);
+                    }
+                }
+                // Sends leave message to previous room
                 io.to(room).emit('message', {user:{username:"Server"}, message:`${user.username} has left the chat`});
             });
         })
